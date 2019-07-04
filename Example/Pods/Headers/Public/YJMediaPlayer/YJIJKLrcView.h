@@ -1,0 +1,1 @@
+../../../../../YJMediaPlayer/Classes/Lrc/YJIJKLrcView.h

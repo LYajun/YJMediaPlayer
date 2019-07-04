@@ -1,0 +1,54 @@
+PODS:
+  - IJKMediaFramework (0.1.2)
+  - Masonry (1.1.0)
+  - MJExtension (3.0.17)
+  - SDWebImage (5.0.6):
+    - SDWebImage/Core (= 5.0.6)
+  - SDWebImage/Core (5.0.6)
+  - YJMediaPlayer (1.0.0):
+    - YJMediaPlayer/Category (= 1.0.0)
+    - YJMediaPlayer/Lrc (= 1.0.0)
+    - YJMediaPlayer/Model (= 1.0.0)
+    - YJMediaPlayer/Player (= 1.0.0)
+    - YJMediaPlayer/View (= 1.0.0)
+  - YJMediaPlayer/Category (1.0.0)
+  - YJMediaPlayer/Lrc (1.0.0):
+    - Masonry
+    - MJExtension
+  - YJMediaPlayer/Model (1.0.0):
+    - YJMediaPlayer/Lrc
+  - YJMediaPlayer/Player (1.0.0):
+    - IJKMediaFramework
+    - YJMediaPlayer/Model
+    - YJMediaPlayer/View
+  - YJMediaPlayer/View (1.0.0):
+    - Masonry
+    - SDWebImage
+    - YJMediaPlayer/Category
+    - YJMediaPlayer/Lrc
+    - YJMediaPlayer/Model
+
+DEPENDENCIES:
+  - YJMediaPlayer (from `../`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - IJKMediaFramework
+    - Masonry
+    - MJExtension
+    - SDWebImage
+
+EXTERNAL SOURCES:
+  YJMediaPlayer:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  IJKMediaFramework: a1df7357a01a11e65568b8d6cd16ca270be01034
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
+  MJExtension: 74ec83124a68891619fb7ba9c5c811bbf1691076
+  SDWebImage: 920f1a2ff1ca8296ad34f6e0510a1ef1d70ac965
+  YJMediaPlayer: f40dbbc1c790bfb1e1f554366ab1b36938b2e0c1
+
+PODFILE CHECKSUM: f204c67f2edf7042e441c8ff8e2df188dadd2cf6
+
+COCOAPODS: 1.7.0.beta.3

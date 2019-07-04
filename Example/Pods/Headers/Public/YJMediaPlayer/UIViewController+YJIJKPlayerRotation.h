@@ -1,0 +1,1 @@
+../../../../../YJMediaPlayer/Classes/Category/UIViewController+YJIJKPlayerRotation.h
