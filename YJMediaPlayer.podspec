@@ -2,7 +2,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'YJMediaPlayer'
-  s.version          = '1.0.0'
+  s.version          = '1.0.1'
   s.summary          = '基于IJK的视频播放器'
 
   s.description      = <<-DESC
@@ -15,7 +15,7 @@ TODO: Add long description of the pod here.
   s.source           = { :git => 'https://github.com/LYajun/YJMediaPlayer.git', :tag => s.version.to_s }
   
   s.ios.deployment_target = '8.0'
-
+ 
   s.source_files = 'YJMediaPlayer/Classes/YJMediaPlayer.h'
 
   s.resources = 'YJMediaPlayer/Classes/YJMediaPlayer.bundle'
@@ -52,4 +52,6 @@ TODO: Add long description of the pod here.
   end
   
   s.requires_arc = true
+  s.static_framework = true
+  
 end

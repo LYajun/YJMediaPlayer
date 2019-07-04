@@ -21,6 +21,7 @@
   "source_files": "YJMediaPlayer/Classes/YJMediaPlayer.h",
   "resources": "YJMediaPlayer/Classes/YJMediaPlayer.bundle",
   "requires_arc": true,
+  "static_framework": true,
   "subspecs": [
     {
       "name": "Category",
