@@ -29,6 +29,8 @@
 @property (nonatomic, strong) UILabel *totalTimeLabel;
 /** 全屏按钮 */
 @property (nonatomic, strong) UIButton *fullScreenBtn;
+/** 静音按钮 */
+@property (nonatomic, strong) UIButton *muteBtn;
 @property (nonatomic, strong) UILabel *timeSpaceLab;
 
 @property (nonatomic, assign) double durationTime;
@@ -44,6 +46,7 @@
         [self addSubview:self.bottomToolView];
         [self.bottomToolView addSubview:self.playOrPauseBtn];
         [self.bottomToolView addSubview:self.fullScreenBtn];
+        [self.bottomToolView addSubview:self.muteBtn];
         [self.bottomToolView addSubview:self.totalTimeLabel];
         [self.bottomToolView addSubview:self.timeSpaceLab];
         [self.bottomToolView addSubview:self.currentTimeLabel];
@@ -59,11 +62,12 @@
     }
     return self;
 }
-
 - (void)makeSubViewsAction {
     [self.backBtn addTarget:self action:@selector(backBtnClickAction:) forControlEvents:UIControlEventTouchDown];
     [self.playOrPauseBtn addTarget:self action:@selector(playPauseButtonClickAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.fullScreenBtn addTarget:self action:@selector(fullScreenButtonClickAction:) forControlEvents:UIControlEventTouchDown];
+    
+    [self.muteBtn addTarget:self action:@selector(muteButtonClickAction:) forControlEvents:UIControlEventTouchDown];
     
     UITapGestureRecognizer *sliderTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapSliderAction:)];
     [self.videoSlider addGestureRecognizer:sliderTap];
@@ -108,6 +112,13 @@
     }
 }
 
+- (void)muteButtonClickAction:(UIButton *)sender{
+    sender.selected = !sender.selected;
+    if (self.delegate && [self.delegate respondsToSelector:@selector(portraitMuteButtonClickWithIsMute:)]) {
+        [self.delegate portraitMuteButtonClickWithIsMute:sender.selected];
+    }
+}
+
 - (void)fullScreenButtonClickAction:(UIButton *)sender {
     if ([self.delegate respondsToSelector:@selector(portraitFullScreenButtonClick)]) {
         [self.delegate portraitFullScreenButtonClick];
@@ -134,9 +145,9 @@
     [self.backBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.mas_top).offset(15);
         make.left.equalTo(self).offset(6);
-        make.size.mas_equalTo(CGSizeMake(28, 28));
+        make.size.mas_equalTo(CGSizeMake(40, 28));
     }];
-    
+    [self.backBtn setImageEdgeInsets: UIEdgeInsetsMake(0, -10, 0, 0)];
     
     [self.bottomToolView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.mas_left);
@@ -147,18 +158,25 @@
     
     [self.playOrPauseBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.bottomToolView);
-        make.left.equalTo(self.bottomToolView).offset(10);
+        make.left.equalTo(self.bottomToolView).offset(6);
         make.size.mas_equalTo(CGSizeMake(28, 38));
     }];
     
     [self.fullScreenBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.bottomToolView);
-        make.right.equalTo(self.bottomToolView).offset(-10);
+        make.right.equalTo(self.bottomToolView).offset(-5);
         make.size.mas_equalTo(CGSizeMake(28, 28));
     }];
-    [self.totalTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    
+    [self.muteBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.bottomToolView);
         make.right.equalTo(self.fullScreenBtn.mas_left).offset(-5);
+        make.size.mas_equalTo(CGSizeMake(28, 28));
+    }];
+    
+    [self.totalTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.bottomToolView);
+        make.right.equalTo(self.muteBtn.mas_left).offset(-5);
         make.width.mas_equalTo(45);
     }];
  
@@ -178,8 +196,8 @@
     
     [self.progressView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.bottomToolView);
-        make.left.equalTo(self.playOrPauseBtn.mas_right).offset(10);
-        make.right.equalTo(self.currentTimeLabel.mas_left).offset(-6);
+        make.left.equalTo(self.playOrPauseBtn.mas_right).offset(6);
+        make.right.equalTo(self.currentTimeLabel.mas_left).offset(-3);
     }];
     
     [self.videoSlider mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -277,6 +295,14 @@
         [_fullScreenBtn setImage:[UIImage yjijk_imageNamed:@"yj_fullscreen"] forState:UIControlStateNormal];
     }
     return _fullScreenBtn;
+}
+- (UIButton *)muteBtn{
+    if (!_muteBtn) {
+        _muteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_muteBtn setImage:[UIImage yjijk_imageNamed:@"yj_unmute"] forState:UIControlStateNormal];
+        [_muteBtn setImage:[UIImage yjijk_imageNamed:@"yj_mute"] forState:UIControlStateSelected];
+    }
+    return _muteBtn;
 }
 - (UIButton *)playOrPauseBtn {
     if (!_playOrPauseBtn) {

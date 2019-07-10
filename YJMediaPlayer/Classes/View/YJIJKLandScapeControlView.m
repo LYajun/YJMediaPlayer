@@ -25,7 +25,8 @@
 @property (nonatomic, strong) UIView *bottomToolView;
 /** 播放或暂停按钮(小) */
 @property (nonatomic, strong) UIButton *playOrPauseBtn;
-
+/** 静音按钮 */
+@property (nonatomic, strong) UIButton *muteBtn;
 /** 播放的当前时间label */
 @property (nonatomic, strong) UILabel *currentTimeLabel;
 /** 滑杆 */
@@ -50,6 +51,7 @@
    
         [self addSubview:self.bottomToolView];
         [self.bottomToolView addSubview:self.playOrPauseBtn];
+        [self.bottomToolView addSubview:self.muteBtn];
         [self.bottomToolView addSubview:self.totalTimeLabel];
         [self.bottomToolView addSubview:self.timeSpaceLab];
         [self.bottomToolView addSubview:self.currentTimeLabel];
@@ -69,7 +71,7 @@
 - (void)makeSubViewsAction {
     [self.backBtn addTarget:self action:@selector(backBtnClickAction:) forControlEvents:UIControlEventTouchUpInside];
     self.backBtn.yjijk_touchAreaInsets = UIEdgeInsetsMake(10, 10, 10, 20);
-    
+    [self.muteBtn addTarget:self action:@selector(muteButtonClickAction:) forControlEvents:UIControlEventTouchDown];
     UITapGestureRecognizer *sliderTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapSliderAction:)];
     [self.videoSlider addGestureRecognizer:sliderTap];
     
@@ -94,7 +96,12 @@
         [self.delegate landScapePlayPauseButtonClick:sender.selected];
     }
 }
-
+- (void)muteButtonClickAction:(UIButton *)sender{
+    sender.selected = !sender.selected;
+    if (self.delegate && [self.delegate respondsToSelector:@selector(landScapeMuteButtonClickWithIsMute:)]) {
+        [self.delegate landScapeMuteButtonClickWithIsMute:sender.selected];
+    }
+}
 - (void)progressSliderTouchBeganAction:(id)sender {
     if ([self.delegate respondsToSelector:@selector(landScapeProgressSliderBeginDrag)]) {
         [self.delegate landScapeProgressSliderBeginDrag];
@@ -138,8 +145,9 @@
     [self.backBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.topToolView);
         make.left.equalTo(self.topToolView).offset(6);
-        make.size.mas_equalTo(CGSizeMake(28, 28));
+        make.size.mas_equalTo(CGSizeMake(40, 28));
     }];
+    [self.backBtn setImageEdgeInsets: UIEdgeInsetsMake(0, -10, 0, 0)];
     
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.topToolView);
@@ -156,12 +164,17 @@
     
     [self.playOrPauseBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.bottomToolView);
-        make.left.equalTo(self.bottomToolView).offset(10);
+        make.left.equalTo(self.bottomToolView).offset(6);
         make.size.mas_equalTo(CGSizeMake(28, 38));
+    }];
+    [self.muteBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.bottomToolView);
+        make.right.equalTo(self.bottomToolView).offset(-5);
+        make.size.mas_equalTo(CGSizeMake(28, 28));
     }];
     [self.totalTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.bottomToolView);
-        make.right.equalTo(self.bottomToolView).offset(-10);
+        make.right.equalTo(self.muteBtn.mas_left).offset(-5);
         make.width.mas_equalTo(45);
     }];
     
@@ -180,8 +193,8 @@
 
     [self.progressView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.bottomToolView);
-        make.left.equalTo(self.playOrPauseBtn.mas_right).offset(10);
-        make.right.equalTo(self.currentTimeLabel.mas_left).offset(-6);
+        make.left.equalTo(self.playOrPauseBtn.mas_right).offset(6);
+        make.right.equalTo(self.currentTimeLabel.mas_left).offset(-3);
     }];
     
     [self.videoSlider mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -306,7 +319,14 @@
     }
     return _playOrPauseBtn;
 }
-
+- (UIButton *)muteBtn{
+    if (!_muteBtn) {
+        _muteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_muteBtn setImage:[UIImage yjijk_imageNamed:@"yj_unmute"] forState:UIControlStateNormal];
+        [_muteBtn setImage:[UIImage yjijk_imageNamed:@"yj_mute"] forState:UIControlStateSelected];
+    }
+    return _muteBtn;
+}
 - (UILabel *)currentTimeLabel {
     if (!_currentTimeLabel) {
         _currentTimeLabel = [[UILabel alloc] init];

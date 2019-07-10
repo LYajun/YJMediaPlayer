@@ -85,7 +85,7 @@
     
     [self.playerImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.mas_equalTo(self);
-        make.size.mas_equalTo(CGSizeMake(120, 40));
+        make.size.mas_equalTo(CGSizeMake(64, 64));
     }];
     
      [self.playerImageView yjijk_clipLayerWithRadius:3 width:0 color:nil];
@@ -113,8 +113,7 @@
     if (!_playerImageView) {
         _playerImageView = [UIButton buttonWithType:UIButtonTypeCustom];
         _playerImageView.backgroundColor = [UIColor colorWithWhite:0 alpha:1.0];
-        [_playerImageView setImage:[UIImage yjijk_imageNamed:@"yj_play"] forState:UIControlStateNormal];
-        [_playerImageView setTitle:@" 开始播放" forState:UIControlStateNormal];
+        [_playerImageView setImage:[UIImage yjijk_imageNamed:@"yj_start_play"] forState:UIControlStateNormal];
         [_playerImageView setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         _playerImageView.titleLabel.font = [UIFont systemFontOfSize:16];
         _playerImageView.titleLabel.textAlignment = NSTextAlignmentCenter;

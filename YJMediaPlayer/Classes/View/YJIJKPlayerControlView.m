@@ -13,6 +13,7 @@
 #import "YJIJKPlayerStatusModel.h"
 #import "UIView+YJIJKPlayerView.h"
 #import "UIImage+YJIJKPlayerView.h"
+#import "UIButton+YJIJKPlayerRotation.h"
 
 static const CGFloat YJIJKPlayerAnimationTimeInterval             = 7.0f;
 static const CGFloat YJIJKPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
@@ -352,9 +353,10 @@ static const CGFloat YJIJKPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
     
     [self.repeatBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(self);
-        make.size.mas_equalTo(CGSizeMake(90, 40));
+        make.size.mas_equalTo(CGSizeMake(260, 100));
     }];
     [self.repeatBtn yjijk_clipLayerWithRadius:3 width:0 color:nil];
+    [self.repeatBtn yjijk_setImagePosition:YJIJKImagePositionTop spacing:20];
     [self.failBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(self);
         make.width.mas_equalTo(150);
@@ -467,7 +469,7 @@ static const CGFloat YJIJKPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
         _repeatBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         _repeatBtn.backgroundColor = [UIColor colorWithWhite:0 alpha:1.0];
         [_repeatBtn setImage:[UIImage yjijk_imageNamed:@"lg_update"] forState:UIControlStateNormal];
-        [_repeatBtn setTitle:@" 重播" forState:UIControlStateNormal];
+        [_repeatBtn setTitle:@"视频播放已完成，点击重播" forState:UIControlStateNormal];
         [_repeatBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         _repeatBtn.titleLabel.font = [UIFont systemFontOfSize:16];
         _repeatBtn.titleLabel.textAlignment = NSTextAlignmentCenter;

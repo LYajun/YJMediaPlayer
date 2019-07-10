@@ -22,6 +22,8 @@
 
 /** 进度条tap点击 */
 - (void)landScapeProgressSliderTapAction:(CGFloat)value;
+/** 是否静音 */
+- (void)landScapeMuteButtonClickWithIsMute:(BOOL)isMute;
 @end
 
 @interface YJIJKLandScapeControlView : UIView

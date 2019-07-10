@@ -22,6 +22,8 @@
 - (void)portraitFullScreenButtonClick;
 /** 进度条tap点击 */
 - (void)portraitProgressSliderTapAction:(CGFloat)value;
+/** 是否静音 */
+- (void)portraitMuteButtonClickWithIsMute:(BOOL)isMute;
 @end
 
 @interface YJIJKPortraitControlView : UIView

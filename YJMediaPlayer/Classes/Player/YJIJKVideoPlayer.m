@@ -370,7 +370,9 @@
         [wself.videoPlayerView.playerControlView autoFadeOutControlView];
     }];
 }
-
+- (void)portraitMuteButtonClickWithIsMute:(BOOL)isMute{
+    [self setisMute:isMute];
+}
 #pragma mark - YJIJKLandScapeControlViewDelegate
 /** 返回按钮被点击 */
 - (void)landScapeBackButtonClick {
@@ -431,7 +433,9 @@
         [wself.videoPlayerView.playerControlView autoFadeOutControlView];
     }];
 }
-
+- (void)landScapeMuteButtonClickWithIsMute:(BOOL)isMute{
+    [self setisMute:isMute];
+}
 #pragma mark - YJIJKVideoPlayerViewDelagate
 /** 双击事件 */
 - (void)doubleTapAction {
