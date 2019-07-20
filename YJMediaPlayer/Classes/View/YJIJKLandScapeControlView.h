@@ -28,6 +28,8 @@
 
 @interface YJIJKLandScapeControlView : UIView
 @property (nonatomic, weak) id<YJIJKLandScapeControlViewDelegate> delegate;
+/** 是否静音 */
+@property (nonatomic, assign) BOOL isMute;
 
 /** 重置ControlView */
 - (void)playerResetControlView;

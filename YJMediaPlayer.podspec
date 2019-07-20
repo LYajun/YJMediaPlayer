@@ -2,7 +2,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'YJMediaPlayer'
-  s.version          = '1.0.2'
+  s.version          = '1.0.3'
   s.summary          = '基于IJK的视频播放器'
 
   s.description      = <<-DESC
@@ -33,6 +33,7 @@ TODO: Add long description of the pod here.
   s.subspec 'Model' do |model|
       model.source_files = 'YJMediaPlayer/Classes/Model/**/*'
       model.dependency 'YJMediaPlayer/Lrc'
+      model.dependency 'YJMediaPlayer/Category'
   end
   
   s.subspec 'View' do |view|

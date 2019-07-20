@@ -14,7 +14,7 @@
 #import "UIView+YJIJKPlayerView.h"
 #import "UIImage+YJIJKPlayerView.h"
 #import "UIButton+YJIJKPlayerRotation.h"
-
+#import <SDWebImage/UIImageView+WebCache.h>
 static const CGFloat YJIJKPlayerAnimationTimeInterval             = 7.0f;
 static const CGFloat YJIJKPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
 
@@ -27,8 +27,10 @@ static const CGFloat YJIJKPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
 @property (nonatomic, strong) UIProgressView          *fastProgressView;
 /** 快进快退时间 */
 @property (nonatomic, strong) UILabel                 *fastTimeLabel;
+@property (nonatomic, strong) UILabel                 *failTitleLab;
 /** 快进快退ImageView */
 @property (nonatomic, strong) UIImageView             *fastImageView;
+@property (nonatomic, strong) UIImageView             *bgImageView;
 /** 加载失败按钮 */
 @property (nonatomic, strong) UIButton                *failBtn;
 /** 重播按钮 */
@@ -85,10 +87,13 @@ static const CGFloat YJIJKPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
  *  添加所有子控件
  */
 - (void)addAllSubViews {
+    [self addSubview:self.bgImageView];
     [self addSubview:self.portraitControlView];
     [self addSubview:self.landScapeControlView];
     [self addSubview:self.activity];
+    
     [self addSubview:self.repeatBtn];
+    [self addSubview:self.failTitleLab];
     [self addSubview:self.failBtn];
     
     [self addSubview:self.fastView];
@@ -111,6 +116,8 @@ static const CGFloat YJIJKPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
 /** 播放失败按钮的点击 */
 - (void)failBtnClick:(UIButton *)sender {
     self.failBtn.hidden = YES;
+    self.failTitleLab.hidden = YES;
+    self.bgImageView.hidden = YES;
     if ([self.delegate respondsToSelector:@selector(failButtonClick)]) {
         [self.delegate failButtonClick];
     }
@@ -177,7 +184,9 @@ static const CGFloat YJIJKPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
     
     self.fastView.hidden = YES;
     self.repeatBtn.hidden = YES;
+    self.bgImageView.hidden = YES;
     self.failBtn.hidden = YES;
+    self.failTitleLab.hidden = YES;
     self.backgroundColor = [UIColor clearColor];
     self.showing = NO;
     self.playeEnd = NO;
@@ -191,8 +200,9 @@ static const CGFloat YJIJKPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
     self.backgroundColor        = [UIColor clearColor];
     self.showing                = NO;
     self.failBtn.hidden         = YES;
+    self.failTitleLab.hidden = YES;
     self.repeatBtn.hidden       = YES;
-    
+    self.bgImageView.hidden     = YES;
 }
 
 /**
@@ -279,20 +289,27 @@ static const CGFloat YJIJKPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
 - (void)readyToPlay {
     [self.activity stopAnimating];
     self.failBtn.hidden = YES;
+    self.failTitleLab.hidden = YES;
+    self.bgImageView.hidden = YES;
 }
 
 /** 加载失败, 显示加载失败按钮 */
 - (void)loadFailed {
     [self.activity stopAnimating];
     self.failBtn.hidden = NO;
+    self.failTitleLab.hidden = NO;
+    self.bgImageView.hidden = NO;
+    // 隐藏controlView
+    [self playEndHideControlView];
 }
 
 /** 开始loading */
 - (void)loading {
     [self.activity startAnimating];
     self.failBtn.hidden = YES;
+    self.failTitleLab.hidden = YES;
+    self.bgImageView.hidden = YES;
     self.fastView.hidden = YES; //
-    
 #warning 有问题, 可能重播播放的是本地文件, 就不会loading(待优化)
     self.playeEnd = NO;
 }
@@ -301,8 +318,9 @@ static const CGFloat YJIJKPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
 - (void)playDidEnd {
     [self.activity stopAnimating];
     self.failBtn.hidden = YES;
+    self.failTitleLab.hidden = YES;
     self.repeatBtn.hidden = NO;
-    
+    self.bgImageView.hidden = NO;
     self.backgroundColor  = [UIColor colorWithRed:0 green:0 blue:0 alpha:1];
     self.playeEnd         = YES;
     self.showing          = NO;
@@ -324,20 +342,33 @@ static const CGFloat YJIJKPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
     } else {
         // 竖屏
         self.landScapeControlView.hidden = YES;
-        self.portraitControlView.hidden = NO;
+        if (self.failBtn.hidden == NO) {
+            self.portraitControlView.hidden = YES;
+        }else{
+            self.portraitControlView.hidden = NO;
+        }
         
         [self.portraitControlView playEndHideView:self.playeEnd];
     }
     
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
 }
-
+- (void)syncCoverImageViewWithURLString:(NSString *)urlString placeholderImage:(UIImage *)placeholderImage{
+    // 设置网络占位图片
+    if (urlString.length) {
+        [self.bgImageView sd_setImageWithURL:[NSURL URLWithString:urlString] placeholderImage:[UIImage imageNamed:@"封面占位"]];;
+    } else {
+        self.bgImageView.image = placeholderImage;
+    }
+}
 #pragma mark - 添加子控件的约束
 /**
  *  添加子控件的约束
  */
 - (void)makeSubViewsConstraints {
-    
+    [self.bgImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.leading.trailing.bottom.equalTo(self);
+    }];
     [self.portraitControlView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.leading.trailing.bottom.equalTo(self);
     }];
@@ -355,15 +386,21 @@ static const CGFloat YJIJKPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
         make.center.equalTo(self);
         make.size.mas_equalTo(CGSizeMake(260, 100));
     }];
-    [self.repeatBtn yjijk_clipLayerWithRadius:3 width:0 color:nil];
     [self.repeatBtn yjijk_setImagePosition:YJIJKImagePositionTop spacing:20];
+    
+    [self.failTitleLab mas_makeConstraints:^(MASConstraintMaker *make) {
+         make.centerX.equalTo(self);
+         make.centerY.equalTo(self).offset(-25);
+    }];
     [self.failBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(self);
-        make.width.mas_equalTo(150);
-        make.height.mas_equalTo(33);
+        make.centerX.equalTo(self);
+        make.centerY.equalTo(self).offset(25);
+        make.width.mas_equalTo(110);
+        make.height.mas_equalTo(32);
     }];
     
-    [self.failBtn yjijk_clipLayerWithRadius:3 width:0 color:nil];
+    [self.failBtn yjijk_clipLayerWithRadius:16 width:0 color:nil];
+    
     [self.fastView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(125);
         make.height.mas_equalTo(80);
@@ -454,26 +491,38 @@ static const CGFloat YJIJKPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
 - (UIButton *)failBtn {
     if (!_failBtn) {
         _failBtn = [UIButton buttonWithType:UIButtonTypeSystem];
-        [_failBtn setTitle:@"加载失败,点击重试" forState:UIControlStateNormal];
+        [_failBtn setTitle:@"点击重试" forState:UIControlStateNormal];
         [_failBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        _failBtn.backgroundColor = [UIColor colorWithWhite:0.5 alpha:0.4];
         _failBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
         _failBtn.titleLabel.font = [UIFont systemFontOfSize:16.0];
-        _failBtn.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];
-         _failBtn.backgroundColor = [UIColor colorWithWhite:0 alpha:1.0];
     }
     return _failBtn;
 }
-
+- (UILabel *)failTitleLab{
+    if (!_failTitleLab) {
+        _failTitleLab = [UILabel new];
+        _failTitleLab.text = @"视频加载失败，请稍后重试";
+        _failTitleLab.textAlignment = NSTextAlignmentCenter;
+        _failTitleLab.font = [UIFont systemFontOfSize:16];
+        _failTitleLab.textColor = [UIColor whiteColor];
+    }
+    return _failTitleLab;
+}
+- (UIImageView *)bgImageView{
+    if (!_bgImageView) {
+        _bgImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    }
+    return _bgImageView;
+}
 - (UIButton *)repeatBtn {
     if (!_repeatBtn) {
         _repeatBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        _repeatBtn.backgroundColor = [UIColor colorWithWhite:0 alpha:1.0];
         [_repeatBtn setImage:[UIImage yjijk_imageNamed:@"lg_update"] forState:UIControlStateNormal];
         [_repeatBtn setTitle:@"视频播放已完成，点击重播" forState:UIControlStateNormal];
         [_repeatBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         _repeatBtn.titleLabel.font = [UIFont systemFontOfSize:16];
         _repeatBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
-        _repeatBtn.backgroundColor = [UIColor colorWithWhite:0 alpha:1.0];
     }
     return _repeatBtn;
 }

@@ -7,13 +7,15 @@
 //
 
 #import "YJIJKPlayerModel.h"
+#import "UIImage+YJIJKPlayerView.h"
 
 @implementation YJIJKPlayerModel
 
 - (UIImage *)placeholderImage
 {
     if (!_placeholderImage) {
-        _placeholderImage = [self createImageWithColor:[UIColor blackColor]];
+        _placeholderImage = [UIImage yjijk_imageNamed:@"placeholderImage"];
+//        _placeholderImage = [self createImageWithColor:[UIColor blackColor]];
     }
     return _placeholderImage;
 }

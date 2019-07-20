@@ -24,9 +24,9 @@
     [super viewDidLoad];
     YJIJKPlayerModel *model = [[YJIJKPlayerModel alloc] init];
     model.title = @"测试视频";
-    //    NSString *path = [[NSBundle mainBundle] pathForResource:@"google-help-vr" ofType:@"mp4"];
+//        NSString *path = [[NSBundle mainBundle] pathForResource:@"google-help-vr" ofType:@"mp4"];
     
-    //    model.videoURL = [NSURL fileURLWithPath:path];
+//        model.videoURL = [NSURL fileURLWithPath:path];
     
 //    model.isMute = YES;
     

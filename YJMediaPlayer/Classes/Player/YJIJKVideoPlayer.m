@@ -67,8 +67,10 @@
     instance.videoPlayerView.playerControlView.delegate = instance;
     instance.videoPlayerView.playerControlView.portraitControlView.delegate
     = instance;
+    instance.videoPlayerView.playerControlView.portraitControlView.isMute = playerModel.isMute;
     instance.videoPlayerView.playerControlView.landScapeControlView.delegate
     = instance;
+    instance.videoPlayerView.playerControlView.landScapeControlView.isMute = playerModel.isMute;
     instance.videoPlayerView.coverControlView.delegate
     = instance;
     instance.videoPlayerView.loadingView.delegate
@@ -114,6 +116,7 @@
     
     // 同步一些属性
     [self.videoPlayerView.coverControlView syncCoverImageViewWithURLString:playerModel.placeholderImageURLString placeholderImage:playerModel.placeholderImage];
+    [self.videoPlayerView.playerControlView syncCoverImageViewWithURLString:playerModel.placeholderImageURLString placeholderImage:playerModel.placeholderImage];
     [self.videoPlayerView.playerControlView.landScapeControlView syncTitle:self.playerModel.title];
     
     
@@ -134,11 +137,9 @@
     if(self.playerMgr) {
         [self.playerMgr stop];
     }
-    
     [self.videoPlayerView.playerControlView loading];
     [self.playerMgr initPlayerWithUrl:self.playerModel.videoURL];
     [self.videoPlayerView setPlayerLayerView:self.playerMgr.playerLayerView];
-    
     self.isPauseByUser = NO;
 }
 

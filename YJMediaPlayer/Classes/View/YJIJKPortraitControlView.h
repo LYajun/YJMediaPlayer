@@ -28,6 +28,8 @@
 
 @interface YJIJKPortraitControlView : UIView
 @property (nonatomic, weak) id<YJIJKPortraitControlViewDelegate> delegate;
+/** 是否静音 */
+@property (nonatomic, assign) BOOL isMute;
 /** 重置ControlView */
 - (void)playerResetControlView;
 - (void)playEndHideView:(BOOL)playeEnd;

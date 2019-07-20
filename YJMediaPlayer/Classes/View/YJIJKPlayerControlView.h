@@ -73,4 +73,6 @@
  */
 - (void)playEndHideControlView;
 
+/** 更新封面图片 */
+- (void)syncCoverImageViewWithURLString:(NSString *)urlString placeholderImage:(UIImage *)placeholderImage;
 @end

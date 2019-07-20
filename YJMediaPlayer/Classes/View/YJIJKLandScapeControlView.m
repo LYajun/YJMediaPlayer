@@ -264,7 +264,10 @@
     NSString *durationTimeString = [self convertTimeSecond:time];
     self.totalTimeLabel.text = durationTimeString;
 }
-
+- (void)setIsMute:(BOOL)isMute{
+    _isMute = isMute;
+    self.muteBtn.selected = isMute;
+}
 #pragma mark - Other
 // !!!: 将秒数时间转换成mm:ss
 - (NSString *)convertTimeSecond:(NSInteger)second {

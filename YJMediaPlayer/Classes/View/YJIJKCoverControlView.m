@@ -112,7 +112,6 @@
 - (UIButton *)playerImageView {
     if (!_playerImageView) {
         _playerImageView = [UIButton buttonWithType:UIButtonTypeCustom];
-        _playerImageView.backgroundColor = [UIColor colorWithWhite:0 alpha:1.0];
         [_playerImageView setImage:[UIImage yjijk_imageNamed:@"yj_start_play"] forState:UIControlStateNormal];
         [_playerImageView setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         _playerImageView.titleLabel.font = [UIFont systemFontOfSize:16];
