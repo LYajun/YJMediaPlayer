@@ -299,8 +299,6 @@ static const CGFloat YJIJKPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
     self.failBtn.hidden = NO;
     self.failTitleLab.hidden = NO;
     self.bgImageView.hidden = NO;
-    // 隐藏controlView
-    [self playEndHideControlView];
 }
 
 /** 开始loading */
@@ -342,12 +340,8 @@ static const CGFloat YJIJKPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
     } else {
         // 竖屏
         self.landScapeControlView.hidden = YES;
-        if (self.failBtn.hidden == NO) {
-            self.portraitControlView.hidden = YES;
-        }else{
-            self.portraitControlView.hidden = NO;
-        }
-        
+        self.portraitControlView.hidden = NO;
+
         [self.portraitControlView playEndHideView:self.playeEnd];
     }
     

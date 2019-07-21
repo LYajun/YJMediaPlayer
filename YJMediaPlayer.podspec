@@ -2,7 +2,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'YJMediaPlayer'
-  s.version          = '1.0.3'
+  s.version          = '1.0.4'
   s.summary          = '基于IJK的视频播放器'
 
   s.description      = <<-DESC
