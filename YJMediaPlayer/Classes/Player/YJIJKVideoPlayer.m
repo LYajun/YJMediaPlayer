@@ -138,9 +138,14 @@
         [self.playerMgr stop];
     }
     [self.videoPlayerView.playerControlView loading];
-    [self.playerMgr initPlayerWithUrl:self.playerModel.videoURL];
-    [self.videoPlayerView setPlayerLayerView:self.playerMgr.playerLayerView];
-    self.isPauseByUser = NO;
+   
+    __weak typeof(self) weakSelf = self;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        [weakSelf.playerMgr initPlayerWithUrl:weakSelf.playerModel.videoURL];
+        [weakSelf.videoPlayerView setPlayerLayerView:weakSelf.playerMgr.playerLayerView];
+        weakSelf.isPauseByUser = NO;
+        
+    });
 }
 
 /**
