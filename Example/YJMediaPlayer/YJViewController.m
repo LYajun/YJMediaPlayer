@@ -30,6 +30,7 @@
     
 //    model.isMute = YES;
 //    model.seekTime = 10;
+//    model.closeRepeatBtn = YES;
     model.videoURL = [NSURL URLWithString:[@"http://192.168.3.158:10171//lgftp/zyk/xl/Speaking/10/Ordering food/Ordering food.mpg" stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
     self.player = [YJIJKVideoPlayer videoPlayerWithView:self.playerFatherView delegate:self playerModel:model];
     [self.player playVideo];
@@ -40,8 +41,8 @@
 //    [self.player setisMute:NO];
 }
 - (IBAction)pausePlayer:(UIButton *)sender {
-    [self.player pauseVideo];
-//    [self.player seekToTime:30];
+//    [self.player pauseVideo];
+    [self.player seekToTime:30];
 }
 
 
@@ -55,5 +56,7 @@
 - (void)changePlayProgress:(double)progress second:(CGFloat)second{
     NSLog(@"播放进度: %f",second);
 }
-
+- (void)playerDidEndAction{
+    NSLog(@"播放完成");
+}
 @end

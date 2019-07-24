@@ -53,8 +53,11 @@ typedef NS_ENUM(NSInteger, YJIJKPlayerState) {
 @property (nonatomic, assign, readonly) YJIJKPlayerState state;
 /** 从xx秒开始播放视频 */
 @property (nonatomic, assign) NSInteger seekTime;
+/** 播放完成是否显示重播按钮 */
+@property (nonatomic,assign) BOOL closeRepeatBtn;
 /** 是否静音 */
 @property (nonatomic, assign) BOOL isMute;
+
 - (void)configMute:(BOOL)mute;
 /**
  *  播放

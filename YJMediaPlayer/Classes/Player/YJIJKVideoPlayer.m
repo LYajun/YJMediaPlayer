@@ -81,6 +81,7 @@
     instance.playerMgr = [YJIJKPlayerManager playerManagerWithDelegate:instance playerStatusModel:instance.playerStatusModel];
     instance.playerMgr.isMute = playerModel.isMute;
     instance.playerMgr.seekTime = playerModel.seekTime;
+    instance.playerMgr.closeRepeatBtn = playerModel.closeRepeatBtn;
     instance.isPauseByUser = YES;
     
     // 设置基本模型 (最后设置)
@@ -192,7 +193,7 @@
     [self.playerMgr stop];
 }
 - (void)seekToTime:(float)time{
-    if (self.playerMgr.state >= 2 && self.playerMgr.state <= 5) {
+    if ((self.playerMgr.state >= 2 && self.playerMgr.state <= 5) || (self.playerMgr.state >= 2 && self.playerModel.closeRepeatBtn)) {
         __weak typeof(self) weakSelf = self;
         [self.playerMgr seekToTime:time completionHandler:^(){
             weakSelf.playerStatusModel.dragged = NO;
@@ -227,7 +228,12 @@
         }
             break;
         case YJIJKPlayerStateStoped: {
-            [self.videoPlayerView playDidEnd];
+            if (!self.playerModel.closeRepeatBtn) {
+                [self.videoPlayerView playDidEnd];
+            }
+            if (self.delegate && [self.delegate respondsToSelector:@selector(playerDidEndAction)]) {
+                [self.delegate playerDidEndAction];
+            }
         }
             break;
         case YJIJKPlayerStateBuffering: {

@@ -25,8 +25,7 @@
 
 /** 播放完了 */
 - (void)playerDidEndAction;
-/** 快进/快退的回掉(埋点用) */
-- (void)playerSeekTimeAction;
+
 /** 播放进度 */
 - (void)changePlayProgress:(double)progress second:(CGFloat)second;
 

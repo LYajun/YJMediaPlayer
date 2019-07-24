@@ -40,4 +40,7 @@
 @property (nonatomic, assign) BOOL isMute;
 /** 从xx秒开始播放视频 */
 @property (nonatomic, assign) NSInteger seekTime;
+
+/** 播放完成是否显示重播按钮 */
+@property (nonatomic,assign) BOOL closeRepeatBtn;
 @end

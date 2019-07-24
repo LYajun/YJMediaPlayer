@@ -187,7 +187,7 @@
             
             self.state = YJIJKPlayerStateStoped;
             
-            if (!self.playerStatusModel.isDragged) { // 如果不是拖拽中，直接结束播放
+            if (!self.playerStatusModel.isDragged && !self.closeRepeatBtn) { // 如果不是拖拽中，直接结束播放
                 self.playerStatusModel.playDidEnd = YES;
             }
             
