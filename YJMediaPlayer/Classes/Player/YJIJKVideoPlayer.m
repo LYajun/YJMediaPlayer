@@ -80,6 +80,7 @@
     // !!!: 创建AVPlayer管理
     instance.playerMgr = [YJIJKPlayerManager playerManagerWithDelegate:instance playerStatusModel:instance.playerStatusModel];
     instance.playerMgr.isMute = playerModel.isMute;
+    instance.playerMgr.seekTime = playerModel.seekTime;
     instance.isPauseByUser = YES;
     
     // 设置基本模型 (最后设置)
@@ -287,6 +288,10 @@
     self.videoPlayerView.loadingView.hidden = YES;
     
     YJIJKBrightnessViewShared.isStartPlay = YES;
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(playerReadyToPlay)]) {
+        [self.delegate playerReadyToPlay];
+    }
 }
 
 #pragma mark - YJIJKPlayerControlViewDelagate

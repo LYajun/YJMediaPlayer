@@ -18,7 +18,8 @@
 @optional
 /** 返回按钮被点击 */
 - (void)playerBackButtonClick;
-
+/** 播放器准备开始播放时 */
+- (void)playerReadyToPlay;
 /** 控制层封面点击事件的回调 */
 - (void)controlViewTapAction;
 

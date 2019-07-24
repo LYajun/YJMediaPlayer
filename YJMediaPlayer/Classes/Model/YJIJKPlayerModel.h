@@ -38,4 +38,6 @@
 
 /** 是否静音 */
 @property (nonatomic, assign) BOOL isMute;
+/** 从xx秒开始播放视频 */
+@property (nonatomic, assign) NSInteger seekTime;
 @end

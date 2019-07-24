@@ -29,7 +29,7 @@
 //        model.videoURL = [NSURL fileURLWithPath:path];
     
 //    model.isMute = YES;
-    
+//    model.seekTime = 10;
     model.videoURL = [NSURL URLWithString:[@"http://192.168.3.158:10171//lgftp/zyk/xl/Speaking/10/Ordering food/Ordering food.mpg" stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
     self.player = [YJIJKVideoPlayer videoPlayerWithView:self.playerFatherView delegate:self playerModel:model];
     [self.player playVideo];
@@ -41,6 +41,7 @@
 }
 - (IBAction)pausePlayer:(UIButton *)sender {
     [self.player pauseVideo];
+//    [self.player seekToTime:30];
 }
 
 
