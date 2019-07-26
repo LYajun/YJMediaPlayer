@@ -16,7 +16,6 @@
 #import "UIColor+YJIJKPlayerView.h"
 #import "UIImage+YJIJKPlayerView.h"
 #import "UIView+YJIJKPlayerView.h"
-#import "UIViewController+YJIJKPlayerRotation.h"
 #import "YJIJKLrcCell.h"
 #import "YJIJKLrcView.h"
 #import "YJIJKSrtModel.h"

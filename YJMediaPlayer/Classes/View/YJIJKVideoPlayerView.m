@@ -325,9 +325,13 @@ typedef NS_ENUM(NSInteger, PanDirection){
         }];
         [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft animated:NO];
     }
+    
+    CGFloat screenW = (kMFDevice_Width > kMFDevice_Height) ? kMFDevice_Width : kMFDevice_Height;
+    CGFloat screenH = (kMFDevice_Width > kMFDevice_Height) ? kMFDevice_Height : kMFDevice_Width;
+    
     [self mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.width.equalTo(@(kMFDevice_Width));
-        make.height.equalTo(@(kMFDevice_Height));
+        make.width.equalTo(@(screenW));
+        make.height.equalTo(@(screenH));
         make.center.equalTo([UIApplication sharedApplication].keyWindow);
     }];
     self.currentOrientation = orientation;
