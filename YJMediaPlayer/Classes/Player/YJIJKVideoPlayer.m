@@ -209,6 +209,7 @@
     if (self.delegate && [self.delegate respondsToSelector:@selector(changePlayerState:)]) {
         [self.delegate changePlayerState:state];
     }
+    self.playerStatusModel.playFailure = NO;
     switch (state) {
         case YJIJKPlayerStateReadyToPlay:{
             
@@ -241,6 +242,10 @@
         }
             break;
         case YJIJKPlayerStateFailed: {
+            self.playerStatusModel.playFailure = YES;
+            if (self.playerStatusModel.isFullScreen) {
+                [self landScapeBackButtonClick];
+            }
             [self.videoPlayerView loadFailed];
             self.videoPlayerView.loadingView.hidden = YES;
             

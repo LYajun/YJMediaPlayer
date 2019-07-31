@@ -212,6 +212,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
 //    if (gesture.state == UIGestureRecognizerStateRecognized) {
     
         if (self.playerStatusModel.playDidEnd) { return; }
+        if (self.playerStatusModel.playFailure) { return; }
         if (self.playerControlView.isShowing) {
             [self.playerControlView hideControl];
         } else {
@@ -227,6 +228,8 @@ typedef NS_ENUM(NSInteger, PanDirection){
  */
 - (void)doubleTapAction:(UIGestureRecognizer *)gesture {
     if (self.playerStatusModel.playDidEnd) { return;  }
+    if (self.playerStatusModel.playFailure) { return; }
+    
     // 显示控制层
     [self.playerControlView setIsShowing:NO];
     [self.playerControlView showControl];

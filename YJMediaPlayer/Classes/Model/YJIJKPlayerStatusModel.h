@@ -15,6 +15,8 @@
 @property (nonatomic, assign, getter=isPauseByUser) BOOL pauseByUser;
 /** 播放完了 */
 @property (nonatomic, assign, getter=isPlayDidEnd) BOOL playDidEnd;
+/** 播放失败 */
+@property (nonatomic, assign) BOOL playFailure;
 /** 进入后台 */
 @property (nonatomic, assign, getter=isDidEnterBackground) BOOL didEnterBackground;
 /** 是否正在拖拽进度条 */

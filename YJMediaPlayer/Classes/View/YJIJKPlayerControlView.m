@@ -121,6 +121,11 @@ static const CGFloat YJIJKPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
     if ([self.delegate respondsToSelector:@selector(failButtonClick)]) {
         [self.delegate failButtonClick];
     }
+    
+    if (!self.playerStatusModel.isFullScreen) {
+        self.landScapeControlView.hidden = YES;
+        self.portraitControlView.hidden = NO;
+    } 
 }
 
 /** 重播按钮的点击 */
@@ -299,6 +304,11 @@ static const CGFloat YJIJKPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
     self.failBtn.hidden = NO;
     self.failTitleLab.hidden = NO;
     self.bgImageView.hidden = NO;
+    
+    if (!self.playerStatusModel.isFullScreen) {
+        self.landScapeControlView.hidden = YES;
+        self.portraitControlView.hidden = YES;
+    }
 }
 
 /** 开始loading */
@@ -487,7 +497,7 @@ static const CGFloat YJIJKPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
         _failBtn = [UIButton buttonWithType:UIButtonTypeSystem];
         [_failBtn setTitle:@"点击重试" forState:UIControlStateNormal];
         [_failBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        _failBtn.backgroundColor = [UIColor colorWithWhite:0.5 alpha:0.4];
+        _failBtn.backgroundColor = [UIColor colorWithRed:0/255.0 green:150/255.0 blue:255/255.0 alpha:1.0];
         _failBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
         _failBtn.titleLabel.font = [UIFont systemFontOfSize:16.0];
     }
