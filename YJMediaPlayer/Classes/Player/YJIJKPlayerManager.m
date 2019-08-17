@@ -96,9 +96,9 @@
 - (void)appDidEnterPlayGround {
     self.playerStatusModel.didEnterBackground = NO;
     if (!self.playerStatusModel.isPauseByUser) {
-        self.state = YJIJKPlayerStatePlaying;
-        self.playerStatusModel.pauseByUser = NO;
         [self play];
+//        self.state = YJIJKPlayerStatePlaying;
+//        self.playerStatusModel.pauseByUser = NO;
     }
 }
 
@@ -317,6 +317,8 @@
 
 #pragma mark - Public method
 - (void)play {
+    if(self.playerStatusModel.didEnterBackground == YES)return;
+
     if (self.state == YJIJKPlayerStateReadyToPlay || self.state == YJIJKPlayerStatePause || self.state == YJIJKPlayerStateBuffering) {
         [self.player play];
         self.playerStatusModel.pauseByUser = NO;
