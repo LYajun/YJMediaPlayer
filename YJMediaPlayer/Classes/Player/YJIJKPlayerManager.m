@@ -89,13 +89,15 @@
 
 - (void)appWillEnterBackground {
     self.playerStatusModel.didEnterBackground = YES;
-    [self.player pause];
-    self.state = YJIJKPlayerStatePause;
+    if ((self.state == YJIJKPlayerStatePlaying || self.state == YJIJKPlayerStateBuffering) && !self.playerStatusModel.isPlayDidEnd) {
+        [self.player pause];
+        self.state = YJIJKPlayerStatePause;
+    }
 }
 
 - (void)appDidEnterPlayGround {
     self.playerStatusModel.didEnterBackground = NO;
-    if (!self.playerStatusModel.isPauseByUser) {
+    if (!self.playerStatusModel.isPauseByUser && self.state == YJIJKPlayerStatePause && !self.playerStatusModel.isPlayDidEnd) {
         [self play];
 //        self.state = YJIJKPlayerStatePlaying;
 //        self.playerStatusModel.pauseByUser = NO;
@@ -244,8 +246,14 @@
             break;
             
         case IJKMPMoviePlaybackStatePaused:
+        {
             NSLog(@"IJKMPMoviePlayBackStateDidChange %d: paused", (int)_player.playbackState);
-            _state = YJIJKPlayerStatePause;
+            if (self.playerStatusModel.isPlayDidEnd) {
+                _state = YJIJKPlayerStateStoped;
+            }else{
+                _state = YJIJKPlayerStatePause;
+            }
+        }
             
             break;
             

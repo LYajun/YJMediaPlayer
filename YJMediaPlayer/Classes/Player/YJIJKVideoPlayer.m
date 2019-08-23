@@ -281,8 +281,10 @@
     [self.videoPlayerView.playerControlView.portraitControlView syncDurationTime:self.playerMgr.duration];
     [self.videoPlayerView.playerControlView.landScapeControlView syncDurationTime:self.playerMgr.duration];
     
-    if (self.delegate && [self.delegate respondsToSelector:@selector(changePlayProgress:second:)]) {
-        [self.delegate changePlayProgress:progress second:second];
+    if (!self.playerStatusModel.isPlayDidEnd) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(changePlayProgress:second:)]) {
+            [self.delegate changePlayProgress:progress second:second];
+        }
     }
 }
 
