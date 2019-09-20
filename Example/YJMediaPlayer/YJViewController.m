@@ -29,9 +29,12 @@
 //        model.videoURL = [NSURL fileURLWithPath:path];
     
 //    model.isMute = YES;
-//    model.seekTime = 10;
+//    model.isVipMode = NO;
+    model.seekTime = 10;
+    model.seekEndTime = 60;
 //    model.closeRepeatBtn = YES;
-    model.videoURL = [NSURL URLWithString:[@"http://192.168.3.158:10171//lgftp/zyk/xl/Speaking/10/Ordering food/Ordering food.mpg" stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
+
+    model.videoURL = [NSURL URLWithString:[@"http://192.168.129.129:10104//lgRs/2d825d6f4cd744368daea2b146c97fcc/47fb4b1f8c114365ad61f6d727253e35.mp4" stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
     self.player = [YJIJKVideoPlayer videoPlayerWithView:self.playerFatherView delegate:self playerModel:model];
     [self.player playVideo];
 }

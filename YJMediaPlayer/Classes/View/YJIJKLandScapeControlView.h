@@ -7,7 +7,7 @@
 //  横屏下的控制的view
 
 #import <UIKit/UIKit.h>
-
+@class YJIJKPlayerModel;
 @protocol YJIJKLandScapeControlViewDelegate <NSObject>
 
 /** 返回按钮被点击 */
@@ -28,8 +28,8 @@
 
 @interface YJIJKLandScapeControlView : UIView
 @property (nonatomic, weak) id<YJIJKLandScapeControlViewDelegate> delegate;
-/** 是否静音 */
-@property (nonatomic, assign) BOOL isMute;
+@property (nonatomic,strong) YJIJKPlayerModel *playerModel;
+
 
 /** 重置ControlView */
 - (void)playerResetControlView;

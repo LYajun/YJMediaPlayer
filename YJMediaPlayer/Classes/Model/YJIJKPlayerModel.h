@@ -38,9 +38,12 @@
 
 /** 是否静音 */
 @property (nonatomic, assign) BOOL isMute;
+/** VIP模式 默认为YES */
+@property (nonatomic,assign) BOOL isVipMode;
 /** 从xx秒开始播放视频 */
-@property (nonatomic, assign) NSInteger seekTime;
-
+@property (nonatomic, assign) NSTimeInterval seekTime;
+/** 从xx秒结束播放视频 */
+@property (nonatomic, assign) NSTimeInterval seekEndTime;
 /** 播放完成是否显示重播按钮 */
 @property (nonatomic,assign) BOOL closeRepeatBtn;
 @end

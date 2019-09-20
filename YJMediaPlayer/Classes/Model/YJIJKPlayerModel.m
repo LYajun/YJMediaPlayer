@@ -10,7 +10,12 @@
 #import "UIImage+YJIJKPlayerView.h"
 
 @implementation YJIJKPlayerModel
-
+- (instancetype)init{
+    if (self = [super init]) {
+        _isVipMode = YES;
+    }
+    return self;
+}
 - (UIImage *)placeholderImage
 {
     if (!_placeholderImage) {

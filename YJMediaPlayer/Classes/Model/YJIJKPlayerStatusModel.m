@@ -20,5 +20,6 @@
     self.didEnterBackground = NO;
     self.pauseByUser = YES;
     self.fullScreen = NO;
+    
 }
 @end

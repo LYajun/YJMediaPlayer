@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+@class YJIJKPlayerModel;
 @protocol YJIJKPortraitControlViewDelegate <NSObject>
 
 /** 返回按钮被点击 */
@@ -28,8 +29,8 @@
 
 @interface YJIJKPortraitControlView : UIView
 @property (nonatomic, weak) id<YJIJKPortraitControlViewDelegate> delegate;
-/** 是否静音 */
-@property (nonatomic, assign) BOOL isMute;
+@property (nonatomic,strong) YJIJKPlayerModel *playerModel;
+
 /** 重置ControlView */
 - (void)playerResetControlView;
 - (void)playEndHideView:(BOOL)playeEnd;

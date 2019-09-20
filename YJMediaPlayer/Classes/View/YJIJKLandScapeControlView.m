@@ -12,7 +12,8 @@
 #import "UIColor+YJIJKPlayerView.h"
 #import "UIImage+YJIJKPlayerView.h"
 #import "UIButton+YJIJKPlayerRotation.h"
-
+#import "YJIJKPlayerModel.h"
+#import "UIView+YJIJKPlayerView.h"
 @interface YJIJKLandScapeControlView ()
 /** 顶部工具栏 */
 @property (nonatomic, strong) UIView *topToolView;
@@ -39,6 +40,8 @@
 @property (nonatomic, strong) UILabel *timeSpaceLab;
 
 @property (nonatomic, assign) double durationTime;
+@property (strong,nonatomic) UIView *listeningTestStartPointView;
+@property (strong,nonatomic) UIView *listeningTestEndPointView;
 @end
 
 @implementation YJIJKLandScapeControlView
@@ -201,8 +204,30 @@
         make.center.left.equalTo(self.progressView);
     }];
 
+    [self.bottomToolView addSubview:self.listeningTestStartPointView];
+    [self.listeningTestStartPointView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.videoSlider);
+        make.left.equalTo(self.videoSlider);
+        make.width.height.mas_equalTo(6);
+    }];
+    [self.listeningTestStartPointView yjijk_clipLayerWithRadius:3 width:0 color:nil];
+    self.listeningTestStartPointView.hidden = YES;
+    
+    [self.bottomToolView addSubview:self.listeningTestEndPointView];
+    [self.listeningTestEndPointView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.videoSlider);
+        make.left.equalTo(self.videoSlider);
+        make.width.height.mas_equalTo(6);
+    }];
+    [self.listeningTestEndPointView yjijk_clipLayerWithRadius:3 width:0 color:nil];
+    self.listeningTestEndPointView.hidden = YES;
 }
-
+- (CGFloat)videoSliderWidth{
+    CGFloat otherWidth = (6+28) + (5+28) + (5+45) + 5 + 45 + (6+3);
+    CGFloat screenWidth = ([UIScreen mainScreen].bounds.size.width > [UIScreen mainScreen].bounds.size.height ? [UIScreen mainScreen].bounds.size.width : [UIScreen mainScreen].bounds.size.height);
+    CGFloat width = screenWidth - otherWidth;
+    return width;
+}
 #pragma mark - Public method
 /** 重置ControlView */
 - (void)playerResetControlView {
@@ -217,6 +242,8 @@
     self.topToolView.alpha = 1;
     self.bottomToolView.alpha = 1;
     
+    self.topToolView.hidden = NO;
+    self.bottomToolView.hidden = NO;
 }
 
 - (void)playEndHideView:(BOOL)playeEnd {
@@ -262,11 +289,30 @@
     
     self.durationTime = time;
     NSString *durationTimeString = [self convertTimeSecond:time];
+    
+    if ([self.totalTimeLabel.text isEqualToString:@"00:00"]) {
+        if (self.playerModel.seekTime > 0) {
+            self.listeningTestStartPointView.hidden = NO;
+            CGFloat rate = self.playerModel.seekTime * 1.0 /self.durationTime;
+            [self.listeningTestStartPointView mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.left.equalTo(self.videoSlider).offset(rate * [self videoSliderWidth]);
+            }];
+        }
+        
+        if (self.playerModel.seekEndTime > 0 && self.durationTime > self.playerModel.seekEndTime) {
+            self.listeningTestEndPointView.hidden = NO;
+            CGFloat rate = self.playerModel.seekEndTime * 1.0 /self.durationTime;
+            [self.listeningTestEndPointView mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.left.equalTo(self.videoSlider).offset(rate * [self videoSliderWidth]);
+            }];
+        }
+    }
+    
     self.totalTimeLabel.text = durationTimeString;
 }
-- (void)setIsMute:(BOOL)isMute{
-    _isMute = isMute;
-    self.muteBtn.selected = isMute;
+- (void)setPlayerModel:(YJIJKPlayerModel *)playerModel{
+    _playerModel = playerModel;
+    self.muteBtn.selected = playerModel.isMute;
 }
 #pragma mark - Other
 // !!!: 将秒数时间转换成mm:ss
@@ -380,6 +426,20 @@
         _timeSpaceLab.text = @"/";
     }
     return _timeSpaceLab;
+}
+- (UIView *)listeningTestEndPointView{
+    if (!_listeningTestEndPointView) {
+        _listeningTestEndPointView = [UIView new];
+        _listeningTestEndPointView.backgroundColor = [UIColor redColor];
+    }
+    return _listeningTestEndPointView;
+}
+- (UIView *)listeningTestStartPointView{
+    if (!_listeningTestStartPointView) {
+        _listeningTestStartPointView = [UIView new];
+        _listeningTestStartPointView.backgroundColor = [UIColor redColor];
+    }
+    return _listeningTestStartPointView;
 }
 
 @end

@@ -25,6 +25,13 @@
 /** 是否全屏 */
 @property (nonatomic, assign, getter=isFullScreen) BOOL fullScreen;
 
+/** 付费VIP模式 */
+@property (nonatomic,assign) BOOL isVipMode;
+/** 从xx秒开始播放视频 */
+@property (nonatomic, assign) NSTimeInterval seekTime;
+/** 从xx秒结束播放视频 */
+@property (nonatomic, assign) NSTimeInterval seekEndTime;
+
 /**
  重置状态模型属性
  */

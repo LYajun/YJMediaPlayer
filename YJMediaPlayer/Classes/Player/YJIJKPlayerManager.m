@@ -337,6 +337,7 @@
 }
 
 - (void)rePlay {
+    self.seekTime = self.playerStatusModel.seekTime;
     self.initReadyToPlay = NO;
     [self.player prepareToPlay];
     [self.player play];

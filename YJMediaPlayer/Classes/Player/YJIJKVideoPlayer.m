@@ -30,6 +30,8 @@
 /** 是否被用户暂停 */
 @property (nonatomic, assign) BOOL isPauseByUser;
 
+@property (nonatomic, assign) BOOL isSeekToStartTime;
+@property (nonatomic, assign) BOOL isSeekToEndTime;
 @end
 
 @implementation YJIJKVideoPlayer
@@ -58,6 +60,10 @@
     instance.playerStatusModel = [[YJIJKPlayerStatusModel alloc] init];
     [instance.playerStatusModel playerResetStatusModel];
     
+    instance.playerStatusModel.isVipMode = playerModel.isVipMode;
+    instance.playerStatusModel.seekTime = playerModel.seekTime;
+    instance.playerStatusModel.seekEndTime = playerModel.seekEndTime;
+    
     // !!!: 最底层视图创建
     instance.videoPlayerView = [YJIJKVideoPlayerView videoPlayerViewWithSuperView:view delegate:instance playerStatusModel:instance.playerStatusModel];
     instance.videoPlayerView.srtModel = playerModel.srtModel;
@@ -67,10 +73,10 @@
     instance.videoPlayerView.playerControlView.delegate = instance;
     instance.videoPlayerView.playerControlView.portraitControlView.delegate
     = instance;
-    instance.videoPlayerView.playerControlView.portraitControlView.isMute = playerModel.isMute;
+    instance.videoPlayerView.playerControlView.portraitControlView.playerModel = playerModel;
     instance.videoPlayerView.playerControlView.landScapeControlView.delegate
     = instance;
-    instance.videoPlayerView.playerControlView.landScapeControlView.isMute = playerModel.isMute;
+    instance.videoPlayerView.playerControlView.landScapeControlView.playerModel = playerModel;
     instance.videoPlayerView.coverControlView.delegate
     = instance;
     instance.videoPlayerView.loadingView.delegate
@@ -165,6 +171,8 @@
     }
     
     [self.videoPlayerView playerResetVideoPlayerView];
+    
+   
 }
 
 /**
@@ -272,6 +280,31 @@
     if (self.playerStatusModel.isDragged) { // 在拖拽进度条的时候不应去更新进度条的值
         return;
     }
+    
+    if (!self.isSeekToStartTime && self.playerModel.seekTime > 0 && second < self.playerModel.seekTime) {
+        [self seekToTime:self.playerModel.seekTime];
+        self.isSeekToStartTime = YES;
+        return;
+    }
+    
+    
+    if (!self.isSeekToEndTime && self.playerModel.seekEndTime > 0 && second > self.playerModel.seekEndTime) {
+        [self seekToTime:self.playerMgr.duration+10];
+        if (self.videoPlayerView.playerControlView.isShowing) {
+            [self.videoPlayerView.playerControlView hideControl];
+        }
+        self.isSeekToEndTime = YES;
+        return;
+    }
+    
+    if (second > self.playerModel.seekTime) {
+        self.isSeekToStartTime = NO;
+    }
+    
+    if (second >= self.playerMgr.duration) {
+        self.isSeekToEndTime = NO;
+    }
+    
     self.videoPlayerView.duration = self.playerMgr.duration;
     [self.videoPlayerView currentPlayProgress:progress];
     [self.videoPlayerView.playerControlView.portraitControlView syncplayProgress:progress];
@@ -315,6 +348,9 @@
 
 /** 重播按钮被点击 */
 - (void)repeatButtonClick {
+    self.isSeekToStartTime = NO;
+    self.isSeekToEndTime = NO;
+    
     [self.playerMgr rePlay];
     
     [self.videoPlayerView repeatPlay];

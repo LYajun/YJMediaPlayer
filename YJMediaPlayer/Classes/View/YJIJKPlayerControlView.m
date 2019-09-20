@@ -130,6 +130,7 @@ static const CGFloat YJIJKPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
 
 /** 重播按钮的点击 */
 - (void)repeatBtnClick:(UIButton *)sender {
+    self.repeatBtn.selected = NO;
     if ([self.delegate respondsToSelector:@selector(repeatButtonClick)]) {
         [self.delegate repeatButtonClick];
     }
@@ -335,6 +336,14 @@ static const CGFloat YJIJKPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
     // 隐藏controlView
     [self playEndHideControlView];
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+    
+    
+    if (!self.playerStatusModel.isVipMode && self.playerStatusModel.seekEndTime > 0) {
+        self.repeatBtn.selected = YES;
+    }else{
+        self.repeatBtn.selected = NO;
+    }
+    
 }
 
 /**
@@ -524,6 +533,7 @@ static const CGFloat YJIJKPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
         _repeatBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [_repeatBtn setImage:[UIImage yjijk_imageNamed:@"lg_update"] forState:UIControlStateNormal];
         [_repeatBtn setTitle:@"视频播放已完成，点击重播" forState:UIControlStateNormal];
+         [_repeatBtn setTitle:@"视频试看结束，重新试看" forState:UIControlStateSelected];
         [_repeatBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         _repeatBtn.titleLabel.font = [UIFont systemFontOfSize:16];
         _repeatBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
