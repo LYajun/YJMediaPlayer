@@ -269,6 +269,7 @@
     [self pauseVideo];
     [self changePlayerState:YJIJKPlayerStateStoped];
     self.isSeekToEndTime = YES;
+    self.playerStatusModel.playDidEnd = YES;
 }
 - (void)changeLoadProgress:(double)progress second:(CGFloat)second {
     [self.videoPlayerView.playerControlView.landScapeControlView syncbufferProgress:progress];
@@ -285,7 +286,7 @@
         return;
     }
     
-    if (!self.isSeekToStartTime && self.playerModel.seekTime > 0 && second < self.playerModel.seekTime) {
+    if (!self.isSeekToStartTime && self.playerModel.seekTime > 0 && second > 0 && second < self.playerModel.seekTime) {
         [self seekToTime:self.playerModel.seekTime];
         self.isSeekToStartTime = YES;
         return;
@@ -293,9 +294,7 @@
     
     
     if (!self.isSeekToEndTime && self.playerModel.seekEndTime > 0 && second > self.playerModel.seekEndTime) {
-        [self pauseVideo];
-        [self changePlayerState:YJIJKPlayerStateStoped];
-        self.isSeekToEndTime = YES;
+        [self dragToSeekEndtime];
         return;
     }
     
@@ -346,13 +345,14 @@
 
 /** 重播按钮被点击 */
 - (void)repeatButtonClick {
-    self.isSeekToStartTime = NO;
     if (self.isSeekToEndTime) {
+        [self.playerMgr updateSeekToEndTimePlayerState:YJIJKPlayerStatePause];
         [self seekToTime:0];
-        self.isSeekToEndTime = NO;
     }else{
         [self.playerMgr rePlay];
     }
+    self.isSeekToStartTime = NO;
+    self.isSeekToEndTime = NO;
     
     [self.videoPlayerView repeatPlay];
     

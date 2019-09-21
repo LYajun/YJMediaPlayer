@@ -389,7 +389,9 @@
     self.player = nil;
     self.initReadyToPlay = NO;
 }
-
+- (void)updateSeekToEndTimePlayerState:(YJIJKPlayerState)state{
+    self.state = state;
+}
 - (void)seekToTime:(CGFloat)dragedSeconds completionHandler:(void (^)())completionHandler {
     if (self.playerStatusModel.seekEndTime > 0 && dragedSeconds >= self.playerStatusModel.seekEndTime) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(dragToSeekEndtime)]) {

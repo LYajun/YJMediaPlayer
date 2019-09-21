@@ -30,11 +30,11 @@
     
 //    model.isMute = YES;
 //    model.isVipMode = NO;
-//    model.seekTime = 30;
-//    model.seekEndTime = 100;
+    model.seekTime = 30;
+    model.seekEndTime = 100;
 //    model.closeRepeatBtn = YES;
 
-    model.videoURL = [NSURL URLWithString:[@"http://192.168.129.129:10132/lgftp/LBD_TeachProgram/y129/491cf0fd-8b42-4e3b-b4f2-968307a00f5f/TeachClassProgram/4895fca1-9583-4a07-b0cf-a257318823b8/54m.mp4" stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
+    model.videoURL = [NSURL URLWithString:[@"https://obs-79f-artificial-intelligence.obs.cn-east-2.myhwclouds.com/LgResource/SoftTeachCloud/LBD_TeachProgram/wrx1/995a52bd-3c15-4630-90ed-ef0ae87f686f/TeachClassProgram/TBE145149312/4c77e9f8b2784b648b42c33ff1867b0a.mp4" stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
     self.player = [YJIJKVideoPlayer videoPlayerWithView:self.playerFatherView delegate:self playerModel:model];
     [self.player playVideo];
 }
