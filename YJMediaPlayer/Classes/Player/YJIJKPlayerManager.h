@@ -36,6 +36,8 @@ typedef NS_ENUM(NSInteger, YJIJKPlayerState) {
 /** 播放器准备开始播放时 */
 - (void)playerReadyToPlay;
 
+/** 视频拖拽超过截止点 */
+- (void)dragToSeekEndtime;
 @end
 
 @interface YJIJKPlayerManager : NSObject

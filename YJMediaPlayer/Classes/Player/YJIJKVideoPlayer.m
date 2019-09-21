@@ -202,12 +202,12 @@
 }
 - (void)seekToTime:(float)time{
     if ((self.playerMgr.state >= 2 && self.playerMgr.state <= 5) || (self.playerMgr.state >= 2 && self.playerModel.closeRepeatBtn)) {
-        __weak typeof(self) weakSelf = self;
+        __weak typeof(self) wself = self;
         [self.playerMgr seekToTime:time completionHandler:^(){
-            weakSelf.playerStatusModel.dragged = NO;
-            [weakSelf.playerMgr play];
+            wself.playerStatusModel.dragged = NO;
+            [wself.playerMgr play];
             // 延迟隐藏控制层
-            [weakSelf.videoPlayerView.playerControlView autoFadeOutControlView];
+            [wself.videoPlayerView.playerControlView autoFadeOutControlView];
         }];
     }
 }
@@ -265,7 +265,11 @@
             break;
     }
 }
-
+- (void)dragToSeekEndtime{
+    [self pauseVideo];
+    [self changePlayerState:YJIJKPlayerStateStoped];
+    self.isSeekToEndTime = YES;
+}
 - (void)changeLoadProgress:(double)progress second:(CGFloat)second {
     [self.videoPlayerView.playerControlView.landScapeControlView syncbufferProgress:progress];
     [self.videoPlayerView.playerControlView.portraitControlView syncbufferProgress:progress];
@@ -289,20 +293,14 @@
     
     
     if (!self.isSeekToEndTime && self.playerModel.seekEndTime > 0 && second > self.playerModel.seekEndTime) {
-        [self seekToTime:self.playerMgr.duration+10];
-        if (self.videoPlayerView.playerControlView.isShowing) {
-            [self.videoPlayerView.playerControlView hideControl];
-        }
+        [self pauseVideo];
+        [self changePlayerState:YJIJKPlayerStateStoped];
         self.isSeekToEndTime = YES;
         return;
     }
     
     if (second > self.playerModel.seekTime) {
         self.isSeekToStartTime = NO;
-    }
-    
-    if (second >= self.playerMgr.duration) {
-        self.isSeekToEndTime = NO;
     }
     
     self.videoPlayerView.duration = self.playerMgr.duration;
@@ -349,20 +347,22 @@
 /** 重播按钮被点击 */
 - (void)repeatButtonClick {
     self.isSeekToStartTime = NO;
-    self.isSeekToEndTime = NO;
-    
-    [self.playerMgr rePlay];
+    if (self.isSeekToEndTime) {
+        [self seekToTime:0];
+        self.isSeekToEndTime = NO;
+    }else{
+        [self.playerMgr rePlay];
+    }
     
     [self.videoPlayerView repeatPlay];
     
     // 没有播放完
     self.playerStatusModel.playDidEnd = NO;
-    
-//    if ([self.videoURL.scheme isEqualToString:@"file"]) {
-//        self.state = YJIJKPlayerStatePlaying;
-//    } else {
-//        self.state = YJIJKPlayerStateBuffering;
-//    }
+    //    if ([self.videoURL.scheme isEqualToString:@"file"]) {
+    //        self.state = YJIJKPlayerStatePlaying;
+    //    } else {
+    //        self.state = YJIJKPlayerStateBuffering;
+    //    }
 }
 
 #pragma mark - YJIJKPortraitControlViewDelegate
@@ -402,7 +402,7 @@
     __weak typeof(self) wself = self;
     NSInteger dragedSeconds = floorf(self.playerMgr.duration * value);
     [self.playerMgr seekToTime:dragedSeconds completionHandler:^(){
-        self.playerStatusModel.dragged = NO;
+        wself.playerStatusModel.dragged = NO;
         [wself.playerMgr play];
         // 延迟隐藏控制层
         [self.videoPlayerView.playerControlView autoFadeOutControlView];
@@ -472,7 +472,7 @@
     __weak typeof(self) wself = self;
     NSInteger dragedSeconds = floorf(self.playerMgr.duration * value);
     [self.playerMgr seekToTime:dragedSeconds completionHandler:^(){
-        self.playerStatusModel.dragged = NO;
+        wself.playerStatusModel.dragged = NO;
         [wself.playerMgr play];
         
         // 延迟隐藏控制层
@@ -553,7 +553,10 @@
     
     // seekTime
     self.playerStatusModel.pauseByUser = NO;
-    [self.playerMgr seekToTime:self.sumTime completionHandler:nil];
+    __weak typeof(self) wself = self;
+    [self.playerMgr seekToTime:self.sumTime completionHandler:^{
+        [wself.playerMgr play];
+    }];
     self.sumTime = 0;
     self.playerStatusModel.dragged = NO;
 }

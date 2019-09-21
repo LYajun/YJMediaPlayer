@@ -16,6 +16,7 @@
 @property (nonatomic, weak) id<YJIJKPlayerManagerDelegate> delegate;
 /** 视频/直播 播放器 */
 @property (nonatomic, strong) IJKFFMoviePlayerController *player;
+@property (nonatomic, strong) IJKFFOptions *options;
 /** 获取当前状态 */
 @property (nonatomic, assign) YJIJKPlayerState state;
 /** 定时器 */
@@ -27,6 +28,8 @@
 
 /** 是否初始化播放过 */
 @property (nonatomic, assign, getter=isInitReadyToPlay) BOOL initReadyToPlay;
+
+@property (nonatomic,assign) BOOL isSeek;
 @end
 
 @implementation YJIJKPlayerManager
@@ -46,16 +49,25 @@
     [self removeMovieNotificationObservers];
     [self removeBackgroundNotificationObservers];
 }
-
+- (IJKFFOptions *)options {
+    if (!_options) {
+        _options = [IJKFFOptions optionsByDefault];
+        /// 精准seek
+        [_options setPlayerOptionIntValue:1 forKey:@"enable-accurate-seek"];
+        /// 解决http播放不了
+        [_options setOptionIntValue:1 forKey:@"dns_cache_clear" ofCategory:kIJKFFOptionCategoryFormat];
+    }
+    return _options;
+}
 /**
  根据视频url初始化player
 
  @param url 视频连接
  */
 - (void)initPlayerWithUrl:(NSURL *)url {
-    IJKFFOptions *options = [IJKFFOptions optionsByDefault];
+//    IJKFFOptions *options = [IJKFFOptions optionsByDefault];
     
-    self.player = [[IJKFFMoviePlayerController alloc] initWithContentURL:url withOptions:options];
+    self.player = [[IJKFFMoviePlayerController alloc] initWithContentURL:url withOptions:self.options];
     [self configureVolume];
     [self addPlayerNotificationObservers];
     [self addBackgroundNotificationObservers];
@@ -130,7 +142,16 @@
 #pragma mark - 更新方法
 - (void)update {
     double playProgress = self.player.currentPlaybackTime / self.player.duration;
-    [self.delegate changePlayProgress:playProgress second:self.player.currentPlaybackTime];
+//    if (self.isSeek) {
+//        __weak typeof(self) weakSelf = self;
+//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+//            [weakSelf.delegate changePlayProgress:playProgress second:self.player.currentPlaybackTime];
+//            weakSelf.isSeek = NO;
+//        });
+//
+//    }else{
+        [self.delegate changePlayProgress:playProgress second:self.player.currentPlaybackTime];
+//    }
     
     double loadProgress = self.player.playableDuration / self.player.duration;
     
@@ -225,7 +246,7 @@
         //视频开始播放的时候开启计时器
         
         if (!self.timer) {
-            self.timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(update) userInfo:nil repeats:YES];
+            self.timer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(update) userInfo:nil repeats:YES];
             [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
         }
         
@@ -370,9 +391,14 @@
 }
 
 - (void)seekToTime:(CGFloat)dragedSeconds completionHandler:(void (^)())completionHandler {
+    if (self.playerStatusModel.seekEndTime > 0 && dragedSeconds >= self.playerStatusModel.seekEndTime) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(dragToSeekEndtime)]) {
+            [self.delegate dragToSeekEndtime];
+        }
+        return;
+    }
     
     [self.player pause];
-    
     
     // 只要快进, 那么就不是被用户暂停
     self.playerStatusModel.pauseByUser = NO;
@@ -381,8 +407,8 @@
     self.player.currentPlaybackTime = dragedSeconds;
     // 视频跳转回调
     if (completionHandler) { completionHandler(); }
+    self.isSeek = YES;
     
-    [self.player play];
 }
 
 /**

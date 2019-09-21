@@ -4,8 +4,8 @@
 //
 //  Created by lyj on 07/04/2019.
 //  Copyright (c) 2019 lyj. All rights reserved.
-//
-
+// http://192.168.129.129:10132/lgftp/LBD_TeachProgram/y129/491cf0fd-8b42-4e3b-b4f2-968307a00f5f/TeachClassProgram/4895fca1-9583-4a07-b0cf-a257318823b8/54m.mp4
+// http://192.168.129.129:10104//lgRs/2d825d6f4cd744368daea2b146c97fcc/47fb4b1f8c114365ad61f6d727253e35.mp4
 #import "YJViewController.h"
 #import <YJMediaPlayer/YJMediaPlayer.h>
 
@@ -30,11 +30,11 @@
     
 //    model.isMute = YES;
 //    model.isVipMode = NO;
-    model.seekTime = 10;
-    model.seekEndTime = 60;
+//    model.seekTime = 30;
+//    model.seekEndTime = 100;
 //    model.closeRepeatBtn = YES;
 
-    model.videoURL = [NSURL URLWithString:[@"http://192.168.129.129:10104//lgRs/2d825d6f4cd744368daea2b146c97fcc/47fb4b1f8c114365ad61f6d727253e35.mp4" stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
+    model.videoURL = [NSURL URLWithString:[@"http://192.168.129.129:10132/lgftp/LBD_TeachProgram/y129/491cf0fd-8b42-4e3b-b4f2-968307a00f5f/TeachClassProgram/4895fca1-9583-4a07-b0cf-a257318823b8/54m.mp4" stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
     self.player = [YJIJKVideoPlayer videoPlayerWithView:self.playerFatherView delegate:self playerModel:model];
     [self.player playVideo];
 }
