@@ -320,7 +320,9 @@
 
 - (void)didBuffer:(YJIJKPlayerManager *)playerMgr { 
     if (self.playerMgr.state == YJIJKPlayerStateBuffering || !self.playerStatusModel.isPauseByUser) {
-        [self.playerMgr play];
+        if (!self.isSeekToEndTime) {
+            [self.playerMgr play];
+        }
 //        [self.videoPlayerView.playerControlView readyToPlay];
     }
 }
@@ -398,9 +400,13 @@
 
 /** 进度结束拖动，并返回最后的值 */
 - (void)portraitProgressSliderEndDrag:(CGFloat)value {
+   
     //计算出拖动的当前秒数
     __weak typeof(self) wself = self;
     NSInteger dragedSeconds = floorf(self.playerMgr.duration * value);
+    if (self.playerModel.seekTime > 0 && dragedSeconds < self.playerModel.seekTime) {
+        dragedSeconds = self.playerModel.seekTime;
+    }
     [self.playerMgr seekToTime:dragedSeconds completionHandler:^(){
         wself.playerStatusModel.dragged = NO;
         [wself.playerMgr play];
@@ -422,6 +428,9 @@
     //计算出拖动的当前秒数
     __weak typeof(self) wself = self;
     NSInteger dragedSeconds = floorf(self.playerMgr.duration * value);
+    if (self.playerModel.seekTime > 0 && dragedSeconds < self.playerModel.seekTime) {
+        dragedSeconds = self.playerModel.seekTime;
+    }
     [self.playerMgr seekToTime:dragedSeconds completionHandler:^(){
         wself.playerStatusModel.dragged = NO;
         [wself.playerMgr play];
@@ -471,6 +480,9 @@
     //计算出拖动的当前秒数
     __weak typeof(self) wself = self;
     NSInteger dragedSeconds = floorf(self.playerMgr.duration * value);
+    if (self.playerModel.seekTime > 0 && dragedSeconds < self.playerModel.seekTime) {
+        dragedSeconds = self.playerModel.seekTime;
+    }
     [self.playerMgr seekToTime:dragedSeconds completionHandler:^(){
         wself.playerStatusModel.dragged = NO;
         [wself.playerMgr play];
@@ -485,6 +497,9 @@
     //计算出拖动的当前秒数
     __weak typeof(self) wself = self;
     NSInteger dragedSeconds = floorf(self.playerMgr.duration * value);
+    if (self.playerModel.seekTime > 0 && dragedSeconds < self.playerModel.seekTime) {
+        dragedSeconds = self.playerModel.seekTime;
+    }
     [self.playerMgr seekToTime:dragedSeconds completionHandler:^(){
         wself.playerStatusModel.dragged = NO;
         [wself.playerMgr play];
@@ -553,8 +568,12 @@
     
     // seekTime
     self.playerStatusModel.pauseByUser = NO;
+    CGFloat sumTime = self.sumTime;
+    if (self.playerModel.seekTime > 0 && sumTime < self.playerModel.seekTime) {
+        sumTime = self.playerModel.seekTime;
+    }
     __weak typeof(self) wself = self;
-    [self.playerMgr seekToTime:self.sumTime completionHandler:^{
+    [self.playerMgr seekToTime:sumTime completionHandler:^{
         [wself.playerMgr play];
     }];
     self.sumTime = 0;
