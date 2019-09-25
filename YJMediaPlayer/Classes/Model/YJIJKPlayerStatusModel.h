@@ -27,10 +27,17 @@
 
 /** 付费VIP模式 */
 @property (nonatomic,assign) BOOL isVipMode;
+/** 从xx秒开始播放剪辑视频 */
+@property (nonatomic, assign) NSTimeInterval seekStartTime;
+/** 从xx秒结束播放剪辑视频 */
+@property (nonatomic, assign) NSTimeInterval seekEndTime;
+/** VIP限制时间点 */
+@property (nonatomic, assign) NSTimeInterval vipLimitTime;
+/** VIP+End播放结束时间点 */
+@property (nonatomic, assign) NSTimeInterval vipEndTime;
+
 /** 从xx秒开始播放视频 */
 @property (nonatomic, assign) NSTimeInterval seekTime;
-/** 从xx秒结束播放视频 */
-@property (nonatomic, assign) NSTimeInterval seekEndTime;
 
 /**
  重置状态模型属性

@@ -338,7 +338,7 @@ static const CGFloat YJIJKPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
     
     
-    if (!self.playerStatusModel.isVipMode && self.playerStatusModel.seekEndTime > 0) {
+    if (!self.playerStatusModel.isVipMode && self.playerStatusModel.vipLimitTime > 0) {
         self.repeatBtn.selected = YES;
     }else{
         self.repeatBtn.selected = NO;

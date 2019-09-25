@@ -30,8 +30,10 @@
     
 //    model.isMute = YES;
 //    model.isVipMode = NO;
-    model.seekTime = 30;
-    model.seekEndTime = 100;
+//    model.seekTime = 20;
+//    model.vipTime = 15;
+//    model.seekStartTime = 0;
+//    model.seekEndTime = 100;
 //    model.closeRepeatBtn = YES;
 
     model.videoURL = [NSURL URLWithString:[@"http://192.168.129.129:10132/lgftp/LBD_TeachProgram/y129/491cf0fd-8b42-4e3b-b4f2-968307a00f5f/TeachClassProgram/4895fca1-9583-4a07-b0cf-a257318823b8/54m.mp4" stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];

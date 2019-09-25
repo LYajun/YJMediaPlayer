@@ -358,7 +358,11 @@
 }
 
 - (void)rePlay {
-    self.seekTime = self.playerStatusModel.seekTime;
+    if (self.playerStatusModel.seekTime > 0) {
+        self.seekTime = self.playerStatusModel.seekTime;
+    }else{
+        self.seekTime = self.playerStatusModel.seekStartTime;
+    }
     self.initReadyToPlay = NO;
     [self.player prepareToPlay];
     [self.player play];

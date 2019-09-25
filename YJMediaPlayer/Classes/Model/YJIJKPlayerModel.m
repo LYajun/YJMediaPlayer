@@ -24,7 +24,36 @@
     }
     return _placeholderImage;
 }
-
+- (NSTimeInterval)vipLimitTime{
+    if (!_isVipMode && _vipTime > 0){
+        if (_seekEndTime > 0) {
+            if ((_seekStartTime + _vipTime) < _seekEndTime) {
+                return _seekStartTime + _vipTime;
+            }else{
+                return 0;
+            }
+        }else{
+            return _vipTime;
+        }
+    }else{
+        return 0;
+    }
+}
+- (NSTimeInterval)vipEndTime{
+    if (!_isVipMode && _vipTime > 0){
+        if (_seekEndTime > 0) {
+            if ((_seekStartTime + _vipTime) < _seekEndTime) {
+                return _seekStartTime + _vipTime;
+            }else{
+                return _seekEndTime;
+            }
+        }else{
+            return _vipTime;
+        }
+    }else{
+        return _seekEndTime;
+    }
+}
 #pragma mark - other
 /**
  *  通过颜色来生成一个纯色图片

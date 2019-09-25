@@ -38,12 +38,21 @@
 
 /** 是否静音 */
 @property (nonatomic, assign) BOOL isMute;
+
 /** VIP模式 默认为YES */
 @property (nonatomic,assign) BOOL isVipMode;
+/** 从xx秒开始播放剪辑视频 */
+@property (nonatomic, assign) NSTimeInterval seekStartTime;
+/** 从xx秒结束播放剪辑视频 */
+@property (nonatomic, assign) NSTimeInterval seekEndTime;
+/** VIP限制时间点 */
+@property (nonatomic, assign) NSTimeInterval vipTime;
+@property (nonatomic, assign,readonly) NSTimeInterval vipLimitTime;
+/** VIP+End播放结束时间点 */
+@property (nonatomic, assign,readonly) NSTimeInterval vipEndTime;
+
 /** 从xx秒开始播放视频 */
 @property (nonatomic, assign) NSTimeInterval seekTime;
-/** 从xx秒结束播放视频 */
-@property (nonatomic, assign) NSTimeInterval seekEndTime;
 /** 播放完成是否显示重播按钮 */
 @property (nonatomic,assign) BOOL closeRepeatBtn;
 @end
