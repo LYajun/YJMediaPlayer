@@ -1,6 +1,6 @@
 {
   "name": "YJMediaPlayer",
-  "version": "1.0.8",
+  "version": "1.1.6",
   "summary": "基于IJK的视频播放器",
   "description": "TODO: Add long description of the pod here.",
   "homepage": "https://github.com/LYajun/YJMediaPlayer",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/LYajun/YJMediaPlayer.git",
-    "tag": "1.0.8"
+    "tag": "1.1.6"
   },
   "platforms": {
     "ios": "8.0"
