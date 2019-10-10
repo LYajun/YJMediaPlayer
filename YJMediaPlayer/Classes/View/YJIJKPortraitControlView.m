@@ -81,7 +81,15 @@
     [self.videoSlider addTarget:self action:@selector(progressSliderValueChangedAction:) forControlEvents:UIControlEventValueChanged];
     // slider结束滑动事件
     [self.videoSlider addTarget:self action:@selector(progressSliderTouchEndedAction:) forControlEvents:UIControlEventTouchUpInside | UIControlEventTouchCancel | UIControlEventTouchUpOutside];
+    
+    UITapGestureRecognizer *botTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(botTapAction)];
+    [self.bottomToolView addGestureRecognizer:botTap];
+    
 }
+- (void)botTapAction{
+    NSLog(@"竖屏：botTapAction");
+}
+
 
 #pragma mark - action
 
@@ -199,7 +207,7 @@
     
     [self.progressView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.bottomToolView);
-        make.left.equalTo(self.playOrPauseBtn.mas_right).offset(6);
+        make.left.equalTo(self.playOrPauseBtn.mas_right).offset(10);
         make.right.equalTo(self.currentTimeLabel.mas_left).offset(-3);
     }];
     

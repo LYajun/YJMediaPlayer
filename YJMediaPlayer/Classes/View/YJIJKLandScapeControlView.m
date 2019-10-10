@@ -74,6 +74,7 @@
 
 - (void)makeSubViewsAction {
     [self.backBtn addTarget:self action:@selector(backBtnClickAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.playOrPauseBtn addTarget:self action:@selector(playPauseButtonClickAction:) forControlEvents:UIControlEventTouchUpInside];
     self.backBtn.yjijk_touchAreaInsets = UIEdgeInsetsMake(10, 10, 10, 20);
     [self.muteBtn addTarget:self action:@selector(muteButtonClickAction:) forControlEvents:UIControlEventTouchDown];
     UITapGestureRecognizer *sliderTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapSliderAction:)];
@@ -85,8 +86,18 @@
     [self.videoSlider addTarget:self action:@selector(progressSliderValueChangedAction:) forControlEvents:UIControlEventValueChanged];
     // slider结束滑动事件
     [self.videoSlider addTarget:self action:@selector(progressSliderTouchEndedAction:) forControlEvents:UIControlEventTouchUpInside | UIControlEventTouchCancel | UIControlEventTouchUpOutside];
+    
+    UITapGestureRecognizer *botTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(botTapAction)];
+    [self.bottomToolView addGestureRecognizer:botTap];
+    UITapGestureRecognizer *topTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(topTapAction)];
+    [self.topToolView addGestureRecognizer:topTap];
 }
-
+- (void)botTapAction{
+    NSLog(@"横屏：botTapAction");
+}
+- (void)topTapAction{
+    NSLog(@"横屏：topTapAction");
+}
 #pragma mark - action
 
 - (void)backBtnClickAction:(UIButton *)sender {
@@ -197,7 +208,7 @@
 
     [self.progressView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.bottomToolView);
-        make.left.equalTo(self.playOrPauseBtn.mas_right).offset(6);
+        make.left.equalTo(self.playOrPauseBtn.mas_right).offset(10);
         make.right.equalTo(self.currentTimeLabel.mas_left).offset(-3);
     }];
     
