@@ -38,8 +38,8 @@
 
 - (instancetype)init {
     if (self = [super init]) {
-        self.frame = CGRectMake(ScreenWidth * 0.5, ScreenHeight * 0.5, 155, 155);
-        
+        self.frame = CGRectMake(0, 0, 155, 155);
+        self.center = [UIApplication sharedApplication].keyWindow.center;
         self.layer.cornerRadius  = 10;
         self.layer.masksToBounds = YES;
         
@@ -110,6 +110,7 @@
                                              selector:@selector(updateLayer:)
                                                  name:UIDeviceOrientationDidChangeNotification
                                                object:nil];
+    
 }
 
 - (void)addObserver {
@@ -124,13 +125,27 @@
                         change:(NSDictionary *)change
                        context:(void *)context {
     
+    [self updateTransform];
     CGFloat sound = [change[@"new"] floatValue];
     [self appearSoundView];
     [self updateLongView:sound];
+    
+    
 }
-
+- (void)updateTransform{
+    UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
+    if (UIDeviceOrientationIsLandscape(orientation)) {
+        if (CGAffineTransformIsIdentity(self.transform)) {
+            self.transform = CGAffineTransformMakeRotation(M_PI_2);
+        }
+    } else {
+        self.transform = CGAffineTransformIdentity;
+    }
+    
+}
 - (void)updateLayer:(NSNotification *)notify {
     self.orientationDidChange = YES;
+    [self updateTransform];
     [self setNeedsLayout];
     [self layoutIfNeeded];
 }
@@ -139,6 +154,7 @@
 
 - (void)appearSoundView {
     if (self.alpha == 0.0) {
+        [[UIApplication sharedApplication].keyWindow bringSubviewToFront:self];
         self.orientationDidChange = NO;
         self.alpha = 1.0;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -176,7 +192,7 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     self.backImage.center = CGPointMake(155 * 0.5, 155 * 0.5);
-    self.center = CGPointMake(ScreenWidth * 0.5, ScreenHeight * 0.5);
+    self.center = [UIApplication sharedApplication].keyWindow.center;
 }
 
 - (void)dealloc {

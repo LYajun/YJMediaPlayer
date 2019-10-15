@@ -603,11 +603,11 @@ typedef NS_ENUM(NSInteger, PanDirection){
 
 - (void)shrinkOrFullScreen:(BOOL)isFull {
     if (isFull) { // 设置全屏
-//        [self interfaceOrientation:UIInterfaceOrientationLandscapeRight];
-        [self setOrientationLandscapeConstraint:UIInterfaceOrientationLandscapeLeft];
+        [self interfaceOrientation:UIInterfaceOrientationLandscapeRight];
+//        [self setOrientationLandscapeConstraint:UIInterfaceOrientationLandscapeLeft];
     } else {
-//        [self interfaceOrientation:UIInterfaceOrientationPortrait];
-        [self setOrientationPortraitConstraint];
+        [self interfaceOrientation:UIInterfaceOrientationPortrait];
+//        [self setOrientationPortraitConstraint];
     }
 }
 
