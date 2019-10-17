@@ -13,4 +13,6 @@
 @property (nonatomic,copy) NSString *lrcText;
 /** 是否选中 */
 @property (nonatomic,assign) BOOL choiced;
+/** 字幕字体大小 */
+@property (nonatomic, assign) CGFloat fontSize;
 @end

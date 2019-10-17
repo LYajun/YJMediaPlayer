@@ -13,4 +13,6 @@
 @property (nonatomic,strong) YJIJKSrtModel *srtModel;
 
 @property (nonatomic,assign) CGFloat currentTime;
+/** 字幕字体大小 */
+@property (nonatomic, assign) CGFloat fontSize;
 @end

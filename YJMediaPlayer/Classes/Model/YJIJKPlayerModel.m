@@ -13,6 +13,7 @@
 - (instancetype)init{
     if (self = [super init]) {
         _isVipMode = YES;
+        _fontSize = 15;
     }
     return self;
 }

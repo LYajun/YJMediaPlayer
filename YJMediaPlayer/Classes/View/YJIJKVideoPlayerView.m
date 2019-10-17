@@ -538,7 +538,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
 }
 - (void)setVideoSubLabAttributedTextWithText:(NSString *)text{
     NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:text];
-    [attr addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:20]range:NSMakeRange(0,attr.length)];
+    [attr addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:self.fontSize+3]range:NSMakeRange(0,attr.length)];
     [attr addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0,attr.length)];
     [attr addAttribute:NSStrokeWidthAttributeName value:@(-2) range:NSMakeRange(0,attr.length)];
     [attr addAttribute:NSStrokeColorAttributeName value:[UIColor blackColor] range:NSMakeRange(0,attr.length)];
@@ -584,6 +584,15 @@ typedef NS_ENUM(NSInteger, PanDirection){
     }
 }
 #pragma mark - Public method
+- (void)setFontSize:(CGFloat)fontSize{
+    _fontSize = fontSize;
+    if (self.videoSubLab.attributedText) {
+        NSMutableAttributedString *attr = self.videoSubLab.attributedText.mutableCopy;
+        [attr addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:fontSize+3]range:NSMakeRange(0,attr.length)];
+        self.videoSubLab.attributedText = attr;
+    }
+    self.lrcView.fontSize = fontSize;
+}
 - (void)setSrtModel:(YJIJKSrtModel *)srtModel{
     _srtModel = srtModel;
 }

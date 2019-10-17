@@ -32,6 +32,10 @@
     _srtModel = srtModel;
     [self.tableView reloadData];
 }
+- (void)setFontSize:(CGFloat)fontSize{
+    _fontSize = fontSize;
+    [self.tableView reloadData];
+}
 - (void)setCurrentTime:(CGFloat)currentTime{
     _currentTime = currentTime;
     YJIJKSrtInfoModel *firstInfo = self.srtModel.srtList.firstObject;
@@ -70,6 +74,7 @@
     YJIJKLrcCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([YJIJKLrcCell class]) forIndexPath:indexPath];
     YJIJKSrtInfoModel *infoModel = self.srtModel.srtList[indexPath.row];
     cell.lrcText = infoModel.subtitles;
+    cell.fontSize = self.fontSize;
     if (indexPath.row == self.currentIndex) {
         cell.choiced = YES;
     }else{

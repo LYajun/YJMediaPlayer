@@ -38,7 +38,8 @@
 
 /** 是否静音 */
 @property (nonatomic, assign) BOOL isMute;
-
+/** 字幕字体大小 */
+@property (nonatomic, assign) CGFloat fontSize;
 /** VIP模式 默认为YES */
 @property (nonatomic,assign) BOOL isVipMode;
 /** 从xx秒开始播放剪辑视频 */

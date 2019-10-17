@@ -71,6 +71,7 @@
     instance.videoPlayerView = [YJIJKVideoPlayerView videoPlayerViewWithSuperView:view delegate:instance playerStatusModel:instance.playerStatusModel];
     instance.videoPlayerView.srtModel = playerModel.srtModel;
     instance.videoPlayerView.isMute = playerModel.isMute;
+     instance.videoPlayerView.fontSize = playerModel.fontSize;
     instance.videoPlayerView.isShowVoiceBgImg = playerModel.isShowVoiceBgImg;
     instance.videoPlayerView.portraitSrtInvisible = playerModel.portraitSrtInvisible;
     instance.videoPlayerView.playerControlView.delegate = instance;
@@ -110,6 +111,9 @@
     self.playerModel.isMute = mute;
     self.videoPlayerView.isMute = mute;
     [self.playerMgr configMute:mute];
+}
+- (void)setSrtFontSize:(CGFloat)fontSize{
+    self.videoPlayerView.fontSize = fontSize;
 }
 // !!!: 销毁视频
 - (void)destroyVideo {

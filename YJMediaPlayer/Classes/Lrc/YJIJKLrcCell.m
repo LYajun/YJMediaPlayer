@@ -41,6 +41,10 @@
         self.contentL.textColor = [UIColor whiteColor];
     }
 }
+- (void)setFontSize:(CGFloat)fontSize{
+    _fontSize = fontSize;
+    self.contentL.font = [UIFont systemFontOfSize:fontSize];
+}
 - (UILabel *)contentL{
     if (!_contentL) {
         _contentL = [UILabel new];

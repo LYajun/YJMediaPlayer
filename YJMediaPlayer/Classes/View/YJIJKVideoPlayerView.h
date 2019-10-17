@@ -40,6 +40,8 @@
 @property (nonatomic,assign) BOOL isShowVoiceBgImg;
 /** 是否静音 */
 @property (nonatomic, assign) BOOL isMute;
+/** 字幕字体大小 */
+@property (nonatomic, assign) CGFloat fontSize;
 /** 获取视频时长，单位：秒 */
 @property (nonatomic, assign) double duration;
 /** 竖屏字幕不可见性，默认可见 */
