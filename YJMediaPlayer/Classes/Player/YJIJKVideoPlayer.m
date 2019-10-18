@@ -211,6 +211,9 @@
 - (void)stopVideo {
     [self.playerMgr stop];
 }
+- (YJIJKPlayerState)currentPlayState{
+    return self.playerMgr.state;
+}
 - (void)seekToTime:(float)time{
     if ((self.playerMgr.state >= 2 && self.playerMgr.state <= 5) || (self.playerMgr.state >= 2 && self.playerModel.closeRepeatBtn)) {
         __weak typeof(self) wself = self;
