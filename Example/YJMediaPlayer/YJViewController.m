@@ -8,20 +8,39 @@
 // http://192.168.129.129:10104//lgRs/2d825d6f4cd744368daea2b146c97fcc/47fb4b1f8c114365ad61f6d727253e35.mp4
 #import "YJViewController.h"
 #import <YJMediaPlayer/YJMediaPlayer.h>
+#import <Masonry/Masonry.h>
 
 @interface YJViewController ()<YJIJKVideoPlayerDelegate>
 @property (nonatomic, strong) YJIJKVideoPlayer *player;
 
-@property (weak, nonatomic) IBOutlet UIView *playerFatherView;
+@property (strong, nonatomic) UIView *playerFatherView;
 
 
 @end
 
 @implementation YJViewController
 
-- (void)viewDidLoad
-{
+- (UIView *)playerFatherView{
+    if (!_playerFatherView) {
+        _playerFatherView = [UIView new];
+    }
+    return _playerFatherView;
+}
+
+- (void)viewDidLoad{
     [super viewDidLoad];
+    
+    self.view.backgroundColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.translucent = NO;
+    
+    
+    
+    [self.view addSubview:self.playerFatherView];
+    [self.playerFatherView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.left.top.equalTo(self.view);
+        make.height.equalTo(self.playerFatherView.mas_width).multipliedBy(9.0/16);
+    }];
+    
     YJIJKPlayerModel *model = [[YJIJKPlayerModel alloc] init];
     model.title = @"测试视频";
 //        NSString *path = [[NSBundle mainBundle] pathForResource:@"google-help-vr" ofType:@"mp4"];
@@ -29,23 +48,23 @@
 //        model.videoURL = [NSURL fileURLWithPath:path];
     
 //    model.isMute = YES;
-//    model.isVipMode = NO;
+    model.isVipMode = NO;
 //    model.seekTime = 20;
-//    model.vipTime = 15;
-//    model.seekStartTime = 0;
-//    model.seekEndTime = 100;
+    model.vipTime = 15;
+    model.seekStartTime = 0;
+    model.seekEndTime = 56;
 //    model.closeRepeatBtn = YES;
 
-    model.videoURL = [NSURL URLWithString:[@"http://192.168.129.129:10132/lgftp/LBD_TeachProgram/y129/491cf0fd-8b42-4e3b-b4f2-968307a00f5f/TeachClassProgram/4895fca1-9583-4a07-b0cf-a257318823b8/54m.mp4" stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
+    model.videoURL = [NSURL URLWithString:[@"http://119.3.7.171:10104//lgRs/38b49e5835714a428e8a5633867e0522/2f3d37e47d9047f9a65ef51c2cd3cdb3.mp4" stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
     self.player = [YJIJKVideoPlayer videoPlayerWithView:self.playerFatherView delegate:self playerModel:model];
     [self.player playVideo];
 }
 
-- (IBAction)stopPlayer:(UIButton *)sender {
+- (void)stopPlayer:(UIButton *)sender {
         [self.player destroyVideo];
 //    [self.player setisMute:NO];
 }
-- (IBAction)pausePlayer:(UIButton *)sender {
+- (void)pausePlayer:(UIButton *)sender {
 //    [self.player pauseVideo];
     [self.player seekToTime:30];
 }
@@ -63,5 +82,18 @@
 }
 - (void)playerDidEndAction{
     NSLog(@"播放完成");
+}
+
+
+- (BOOL)shouldAutorotate {
+    return NO;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+    return UIInterfaceOrientationPortrait;
 }
 @end

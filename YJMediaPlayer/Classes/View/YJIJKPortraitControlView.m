@@ -164,30 +164,34 @@
         make.left.equalTo(self.mas_left);
         make.right.equalTo(self.mas_right);
         make.bottom.equalTo(self.mas_bottom);
-        make.height.mas_equalTo(40);
+        if (IsIPad) {
+            make.height.mas_equalTo(50);
+        }else{
+            make.height.mas_equalTo(40);
+        }
     }];
     
     [self.playOrPauseBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.bottomToolView);
-        make.left.equalTo(self.bottomToolView).offset(6);
+        make.left.equalTo(self.bottomToolView).offset(IsIPad ? 12 : 6);
         make.size.mas_equalTo(CGSizeMake(28, 38));
     }];
     
     [self.fullScreenBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.bottomToolView);
-        make.right.equalTo(self.bottomToolView).offset(-5);
+        make.right.equalTo(self.bottomToolView).offset(IsIPad ? -15 : -5);
         make.size.mas_equalTo(CGSizeMake(28, 28));
     }];
     
     [self.muteBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.bottomToolView);
-        make.right.equalTo(self.fullScreenBtn.mas_left).offset(-5);
+        make.right.equalTo(self.fullScreenBtn.mas_left).offset(IsIPad ? -15 : -5);
         make.size.mas_equalTo(CGSizeMake(28, 28));
     }];
     
     [self.totalTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.bottomToolView);
-        make.right.equalTo(self.muteBtn.mas_left).offset(-5);
+        make.right.equalTo(self.muteBtn.mas_left).offset(IsIPad ? -10 : -5);
         make.width.mas_equalTo(45);
     }];
  
@@ -237,14 +241,17 @@
     [self.listeningTestVipPointView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.videoSlider);
         make.left.equalTo(self.videoSlider);
-        make.width.height.mas_equalTo(8);
+        make.width.height.mas_equalTo(IsIPad ? 12 :  8);
     }];
-    [self.listeningTestVipPointView yjijk_clipLayerWithRadius:4 width:0 color:nil];
+    [self.listeningTestVipPointView yjijk_clipLayerWithRadius:IsIPad ? 6 : 4 width:0 color:nil];
     self.listeningTestVipPointView.hidden = YES;
 }
 
 - (CGFloat)videoSliderWidth{
-    CGFloat otherWidth = (6+28) + (5+28) + (5+28) + (5+45) + 5 + 45 + (6+3);
+    CGFloat otherWidth = (6+28) + (5+28) + (5+28) + (5+45) + 5 + 45 + (10+3);
+    if (IsIPad) {
+        otherWidth = (12+28) + (15+28) + (15+28) + (10+45) + 5 + 45 + (10+3);
+    }
     CGFloat screenWidth = ([UIScreen mainScreen].bounds.size.width < [UIScreen mainScreen].bounds.size.height ? [UIScreen mainScreen].bounds.size.width : [UIScreen mainScreen].bounds.size.height);
     CGFloat width = screenWidth - otherWidth;
     return width;
@@ -368,23 +375,23 @@
 - (UIButton *)fullScreenBtn {
     if (!_fullScreenBtn) {
         _fullScreenBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_fullScreenBtn setImage:[UIImage yjijk_imageNamed:@"yj_fullscreen"] forState:UIControlStateNormal];
+        [_fullScreenBtn setImage:[UIImage yjijk_imageNamed:IsIPad ? @"yj_fullscreen_ipad" : @"yj_fullscreen"] forState:UIControlStateNormal];
     }
     return _fullScreenBtn;
 }
 - (UIButton *)muteBtn{
     if (!_muteBtn) {
         _muteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_muteBtn setImage:[UIImage yjijk_imageNamed:@"yj_unmute"] forState:UIControlStateNormal];
-        [_muteBtn setImage:[UIImage yjijk_imageNamed:@"yj_mute"] forState:UIControlStateSelected];
+        [_muteBtn setImage:[UIImage yjijk_imageNamed:IsIPad ? @"yj_unmute_ipad" : @"yj_unmute"] forState:UIControlStateNormal];
+        [_muteBtn setImage:[UIImage yjijk_imageNamed:IsIPad ? @"yj_mute_ipad" : @"yj_mute"] forState:UIControlStateSelected];
     }
     return _muteBtn;
 }
 - (UIButton *)playOrPauseBtn {
     if (!_playOrPauseBtn) {
         _playOrPauseBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_playOrPauseBtn setImage:[UIImage yjijk_imageNamed:@"yj_play"] forState:UIControlStateNormal];
-        [_playOrPauseBtn setImage:[UIImage yjijk_imageNamed:@"yj_pause"] forState:UIControlStateSelected];
+        [_playOrPauseBtn setImage:[UIImage yjijk_imageNamed:IsIPad ? @"yj_play_ipad" : @"yj_play"] forState:UIControlStateNormal];
+        [_playOrPauseBtn setImage:[UIImage yjijk_imageNamed:IsIPad ? @"yj_pause_ipad" : @"yj_pause"] forState:UIControlStateSelected];
     }
     return _playOrPauseBtn;
 }
@@ -406,7 +413,7 @@
         _videoSlider.maximumValue = 1;
         _videoSlider.minimumTrackTintColor = YJIJKPlayView_ColorWithHex(0x00A0E9);
         _videoSlider.maximumTrackTintColor = [UIColor clearColor];
-        [_videoSlider setThumbImage:[UIImage yjijk_imageNamed:@"yj_thumb"] forState:UIControlStateNormal];
+        [_videoSlider setThumbImage:[UIImage yjijk_imageNamed:IsIPad ? @"yj_thumb_ipad" : @"yj_thumb"] forState:UIControlStateNormal];
     }
     return _videoSlider;
 }
@@ -459,7 +466,7 @@
         _listeningTestVipPointView.text = @"V";
         _listeningTestVipPointView.textColor = [UIColor whiteColor];
         _listeningTestVipPointView.textAlignment = NSTextAlignmentCenter;
-        _listeningTestVipPointView.font = [UIFont systemFontOfSize:6 weight:UIFontWeightMedium];
+        _listeningTestVipPointView.font = [UIFont systemFontOfSize:IsIPad ? 8 : 6 weight:UIFontWeightMedium];
         _listeningTestVipPointView.backgroundColor = [UIColor redColor];
     }
     return _listeningTestVipPointView;

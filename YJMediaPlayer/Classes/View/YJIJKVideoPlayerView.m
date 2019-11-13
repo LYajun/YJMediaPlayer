@@ -524,7 +524,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
 - (void)setVideoSrtCurrentTime:(CGFloat)currentTime{
     YJIJKSrtInfoModel *firstInfo = self.srtModel.srtList.firstObject;
     if (currentTime < firstInfo.beginTime) {
-        [self setVideoSubLabAttributedTextWithText:firstInfo.subtitles];
+        [self setVideoSubLabAttributedTextWithText:@""];
     }else{
         for (int i = 0; i < self.srtModel.srtList.count; i++) {
             YJIJKSrtInfoModel *currentInfo = self.srtModel.srtList[i];

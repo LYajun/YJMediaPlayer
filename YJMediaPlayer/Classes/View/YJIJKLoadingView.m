@@ -11,7 +11,7 @@
 
 #import <Masonry/Masonry.h>
 #import "UIImage+YJIJKPlayerView.h"
-
+#import "UIColor+YJIJKPlayerView.h"
 
 @interface YJIJKLoadingView ()
 /** 返回按钮 */
@@ -74,7 +74,7 @@
 
     [self.activity mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(self);
-        make.width.with.height.mas_equalTo(30);
+        make.width.with.height.mas_equalTo(IsIPad ? 50 : 30);
     }];
 }
 

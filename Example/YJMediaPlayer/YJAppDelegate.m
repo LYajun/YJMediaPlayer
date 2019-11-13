@@ -7,15 +7,23 @@
 //
 
 #import "YJAppDelegate.h"
+#import "YJViewController.h"
 
 @implementation YJAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+    _window = [[UIWindow alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
+    _window.backgroundColor = [UIColor whiteColor];
+    _window.rootViewController = [[YJViewController alloc] init];
+    [_window makeKeyAndVisible];
     return YES;
 }
+- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
 
+    return  UIInterfaceOrientationMaskAllButUpsideDown;
+//    return UIInterfaceOrientationMaskPortrait;
+}
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

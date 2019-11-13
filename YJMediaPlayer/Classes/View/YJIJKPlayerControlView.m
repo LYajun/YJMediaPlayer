@@ -276,9 +276,9 @@ static const CGFloat YJIJKPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
     CGFloat  draggedValue    = (CGFloat)draggedTime/(CGFloat)totalTime;
     NSString *timeStr        = [NSString stringWithFormat:@"%@ / %@", currentTimeStr, totalTimeStr];
     if (forawrd) {
-        self.fastImageView.image = [UIImage imageNamed:@"ZFPlayer_fast_forward"];
+        self.fastImageView.image = [UIImage yjijk_imageNamed:@"yj_speed"];
     } else {
-        self.fastImageView.image = [UIImage imageNamed:@"ZFPlayer_fast_forward"];
+        self.fastImageView.image = [UIImage yjijk_imageNamed:@"yj_reverse"];
     }
     self.fastView.hidden           = NO;
     self.fastTimeLabel.text        = timeStr;
@@ -392,12 +392,20 @@ static const CGFloat YJIJKPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
     
     [self.activity mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(self);
-        make.width.with.height.mas_equalTo(30);
+        if (IsIPad) {
+            make.width.with.height.mas_equalTo(50);
+        }else{
+            make.width.with.height.mas_equalTo(30);
+        }
     }];
     
     [self.repeatBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(self);
-        make.size.mas_equalTo(CGSizeMake(260, 100));
+        if (IsIPad) {
+            make.size.mas_equalTo(CGSizeMake(300, 100));
+        }else{
+            make.size.mas_equalTo(CGSizeMake(260, 100));
+        }
     }];
     [self.repeatBtn yjijk_setImagePosition:YJIJKImagePositionTop spacing:20];
     
@@ -408,7 +416,11 @@ static const CGFloat YJIJKPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
     [self.failBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self);
         make.centerY.equalTo(self).offset(25);
-        make.width.mas_equalTo(110);
+        if (IsIPad) {
+            make.width.mas_equalTo(130);
+        }else{
+            make.width.mas_equalTo(110);
+        }
         make.height.mas_equalTo(32);
     }];
     
@@ -508,7 +520,7 @@ static const CGFloat YJIJKPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
         [_failBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         _failBtn.backgroundColor = [UIColor colorWithRed:0/255.0 green:150/255.0 blue:255/255.0 alpha:1.0];
         _failBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
-        _failBtn.titleLabel.font = [UIFont systemFontOfSize:16.0];
+        _failBtn.titleLabel.font = [UIFont systemFontOfSize:IsIPad ? 19 : 16.0];
     }
     return _failBtn;
 }
@@ -517,7 +529,7 @@ static const CGFloat YJIJKPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
         _failTitleLab = [UILabel new];
         _failTitleLab.text = @"视频加载失败，请稍后重试";
         _failTitleLab.textAlignment = NSTextAlignmentCenter;
-        _failTitleLab.font = [UIFont systemFontOfSize:16];
+        _failTitleLab.font = [UIFont systemFontOfSize:IsIPad ? 19 : 16];
         _failTitleLab.textColor = [UIColor whiteColor];
     }
     return _failTitleLab;
@@ -535,7 +547,7 @@ static const CGFloat YJIJKPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
         [_repeatBtn setTitle:@"视频播放已完成，点击重播" forState:UIControlStateNormal];
          [_repeatBtn setTitle:@"视频试看结束，重新试看" forState:UIControlStateSelected];
         [_repeatBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        _repeatBtn.titleLabel.font = [UIFont systemFontOfSize:16];
+        _repeatBtn.titleLabel.font = [UIFont systemFontOfSize:IsIPad ? 19 : 16];
         _repeatBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
     }
     return _repeatBtn;

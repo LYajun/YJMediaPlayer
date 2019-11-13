@@ -11,6 +11,7 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "UIImage+YJIJKPlayerView.h"
 #import "UIView+YJIJKPlayerView.h"
+#import "UIColor+YJIJKPlayerView.h"
 
 @interface YJIJKCoverControlView ()
 /** 背景图片 */
@@ -85,10 +86,16 @@
     
     [self.playerImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.mas_equalTo(self);
-        make.size.mas_equalTo(CGSizeMake(64, 64));
+        if (IsIPad) {
+            make.size.mas_equalTo(CGSizeMake(80, 80));
+        }else{
+            make.size.mas_equalTo(CGSizeMake(60, 60));
+        }
     }];
     
-     [self.playerImageView yjijk_clipLayerWithRadius:3 width:0 color:nil];
+    self.playerImageView.imageView.contentMode = UIViewContentModeScaleAspectFill;
+    self.playerImageView.contentHorizontalAlignment= UIControlContentHorizontalAlignmentFill;
+    self.playerImageView.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
 }
 
 
