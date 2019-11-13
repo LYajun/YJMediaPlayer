@@ -5,24 +5,24 @@ PODS:
   - SDWebImage (5.0.6):
     - SDWebImage/Core (= 5.0.6)
   - SDWebImage/Core (5.0.6)
-  - YJMediaPlayer (1.2.3):
-    - YJMediaPlayer/Category (= 1.2.3)
-    - YJMediaPlayer/Lrc (= 1.2.3)
-    - YJMediaPlayer/Model (= 1.2.3)
-    - YJMediaPlayer/Player (= 1.2.3)
-    - YJMediaPlayer/View (= 1.2.3)
-  - YJMediaPlayer/Category (1.2.3)
-  - YJMediaPlayer/Lrc (1.2.3):
+  - YJMediaPlayer (1.2.4):
+    - YJMediaPlayer/Category (= 1.2.4)
+    - YJMediaPlayer/Lrc (= 1.2.4)
+    - YJMediaPlayer/Model (= 1.2.4)
+    - YJMediaPlayer/Player (= 1.2.4)
+    - YJMediaPlayer/View (= 1.2.4)
+  - YJMediaPlayer/Category (1.2.4)
+  - YJMediaPlayer/Lrc (1.2.4):
     - Masonry
     - MJExtension
-  - YJMediaPlayer/Model (1.2.3):
+  - YJMediaPlayer/Model (1.2.4):
     - YJMediaPlayer/Category
     - YJMediaPlayer/Lrc
-  - YJMediaPlayer/Player (1.2.3):
+  - YJMediaPlayer/Player (1.2.4):
     - IJKMediaFramework
     - YJMediaPlayer/Model
     - YJMediaPlayer/View
-  - YJMediaPlayer/View (1.2.3):
+  - YJMediaPlayer/View (1.2.4):
     - Masonry
     - SDWebImage
     - YJMediaPlayer/Category
@@ -48,7 +48,7 @@ SPEC CHECKSUMS:
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MJExtension: 74ec83124a68891619fb7ba9c5c811bbf1691076
   SDWebImage: 920f1a2ff1ca8296ad34f6e0510a1ef1d70ac965
-  YJMediaPlayer: 847be1633c49960c8ed1f74314c09235efe7f024
+  YJMediaPlayer: 3ffd47ec325393f9cdbb1fc08050f0ecd0a12957
 
 PODFILE CHECKSUM: 005fc8203f5546275c542c5818b08e6724eabafb
 
