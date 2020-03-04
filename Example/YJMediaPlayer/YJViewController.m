@@ -55,7 +55,7 @@
     model.seekEndTime = 56;
 //    model.closeRepeatBtn = YES;
 
-    model.videoURL = [NSURL URLWithString:[@"http://119.3.7.171:10104//lgRs/38b49e5835714a428e8a5633867e0522/2f3d37e47d9047f9a65ef51c2cd3cdb3.mp4" stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
+    model.videoURL = [NSURL URLWithString:[@"http://192.168.129.129:10104//lgRs/7a8931d8ef0c4c6bbac9e26c04bf50d5/ac7f89a9a7ee4107a4282c325220be5f.mp4" stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
     self.player = [YJIJKVideoPlayer videoPlayerWithView:self.playerFatherView delegate:self playerModel:model];
     [self.player playVideo];
 }

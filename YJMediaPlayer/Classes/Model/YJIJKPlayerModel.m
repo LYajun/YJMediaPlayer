@@ -17,6 +17,18 @@
     }
     return self;
 }
+- (void)setVideoStr:(NSString *)videoStr{
+    if ([videoStr containsString:@"://"]) {
+        NSArray *urlArr = [videoStr componentsSeparatedByString:@"://"];
+        NSString *lastStr = [urlArr.lastObject stringByReplacingOccurrencesOfString:@"//" withString:@"/"];
+        while ([lastStr containsString:@"//"]) {
+            lastStr = [lastStr stringByReplacingOccurrencesOfString:@"//" withString:@"/"];
+        }
+        videoStr = [NSString stringWithFormat:@"%@://%@",urlArr.firstObject,lastStr];
+    }
+    _videoStr = videoStr;
+    _videoURL = [NSURL URLWithString:[videoStr stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
+}
 - (UIImage *)placeholderImage
 {
     if (!_placeholderImage) {

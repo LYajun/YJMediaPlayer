@@ -245,14 +245,14 @@ typedef NS_ENUM(NSInteger, PanDirection){
  *  监听设备旋转通知
  */
 - (void)listeningRotating {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
-    
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(onDeviceOrientationChange)
-                                                 name:UIDeviceOrientationDidChangeNotification
-                                               object:nil
-     ];
+//    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+//
+//    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(onDeviceOrientationChange)
+//                                                 name:UIDeviceOrientationDidChangeNotification
+//                                               object:nil
+//     ];
 }
 
 /**
@@ -612,11 +612,11 @@ typedef NS_ENUM(NSInteger, PanDirection){
 
 - (void)shrinkOrFullScreen:(BOOL)isFull {
     if (isFull) { // 设置全屏
-        [self interfaceOrientation:UIInterfaceOrientationLandscapeRight];
-//        [self setOrientationLandscapeConstraint:UIInterfaceOrientationLandscapeLeft];
+//        [self interfaceOrientation:UIInterfaceOrientationLandscapeRight];
+        [self setOrientationLandscapeConstraint:UIInterfaceOrientationLandscapeLeft];
     } else {
-        [self interfaceOrientation:UIInterfaceOrientationPortrait];
-//        [self setOrientationPortraitConstraint];
+//        [self interfaceOrientation:UIInterfaceOrientationPortrait];
+        [self setOrientationPortraitConstraint];
     }
 }
 

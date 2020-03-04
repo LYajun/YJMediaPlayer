@@ -14,6 +14,7 @@
 /** 视频标题 */
 @property (nonatomic, copy  ) NSString     *title;
 /** 视频URL */
+@property (nonatomic, strong) NSString     *videoStr;
 @property (nonatomic, strong) NSURL        *videoURL;
 /** 视频封面本地图片 */
 @property (nonatomic, strong) UIImage      *placeholderImage;
