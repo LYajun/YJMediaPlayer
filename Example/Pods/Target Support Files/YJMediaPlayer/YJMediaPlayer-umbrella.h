@@ -19,6 +19,7 @@
 #import "YJIJKLrcCell.h"
 #import "YJIJKLrcView.h"
 #import "YJIJKSrtModel.h"
+#import "YJIJKMarqueeLabel.h"
 #import "YJIJKPlayerModel.h"
 #import "YJIJKPlayerStatusModel.h"
 #import "YJIJKPlayerManager.h"

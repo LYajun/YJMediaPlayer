@@ -87,6 +87,37 @@
     }
 }
 
++ (BOOL)yjijk_isIPAD{
+    BOOL isIpad = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad);
+    return isIpad;
+}
+
+- (BOOL)yjijk_isIPhoneX{
+    BOOL iPhoneX = NO;
+    if (UIDevice.currentDevice.userInterfaceIdiom != UIUserInterfaceIdiomPhone) {
+        return iPhoneX;
+    }
+    if (@available(iOS 11.0, *)) {
+        UIWindow *mainWindow = [[[UIApplication sharedApplication] delegate] window];
+        if (mainWindow.safeAreaInsets.bottom > 0.0) {
+            iPhoneX = YES;
+        }
+    }
+    return iPhoneX;
+}
+
+- (CGFloat)yjijk_stateBarSpace{
+     return ([self yjijk_isIPhoneX] ? 24 : 0);
+}
+- (CGFloat)yj_tabBarSpace{
+    return ([self yjijk_isIPhoneX] ? 34 : 0);
+}
+- (CGFloat)yj_customNavBarHeight{
+    return ([self yjijk_isIPhoneX] ? 88 : 64);
+}
+- (CGFloat)yj_customTabBarHeight{
+    return ([self yjijk_isIPhoneX] ? 83 : 49);
+}
 @end
 
 @implementation UILabel (YJIJKPlayerView)

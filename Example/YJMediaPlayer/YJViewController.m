@@ -42,7 +42,7 @@
     }];
     
     YJIJKPlayerModel *model = [[YJIJKPlayerModel alloc] init];
-    model.title = @"测试视频";
+    model.title = @"测试stringByAddingPercentEncodingWithAllowedCharacters视频靠的就是发的复合大师看发送到反馈蓝色的就反馈蓝色的建峰";
 //        NSString *path = [[NSBundle mainBundle] pathForResource:@"google-help-vr" ofType:@"mp4"];
     
 //        model.videoURL = [NSURL fileURLWithPath:path];

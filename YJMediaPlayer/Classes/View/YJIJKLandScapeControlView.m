@@ -14,13 +14,15 @@
 #import "UIButton+YJIJKPlayerRotation.h"
 #import "YJIJKPlayerModel.h"
 #import "UIView+YJIJKPlayerView.h"
+#import "YJIJKMarqueeLabel.h"
+
 @interface YJIJKLandScapeControlView ()
 /** 顶部工具栏 */
 @property (nonatomic, strong) UIView *topToolView;
 /** 返回按钮 */
 @property (nonatomic, strong) UIButton *backBtn;
 /** 标题 */
-@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) YJIJKMarqueeLabel *titleLabel;
 
 /** 底部工具栏 */
 @property (nonatomic, strong) UIView *bottomToolView;
@@ -146,10 +148,15 @@
         [self.delegate landScapeProgressSliderTapAction:tapValue];
     }
 }
-
+- (void)dealloc{
+    [self.titleLabel invalidateTimer];
+}
 #pragma mark - 添加子控件的约束
 - (void)makeSubViewsConstraints {
-    
+    CGFloat leftSpace = 0;
+     if (@available(iOS 13.0, *)) {
+         leftSpace = 20;
+     }
     [self.topToolView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self);
         make.right.equalTo(self);
@@ -159,7 +166,7 @@
     
     [self.backBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.topToolView);
-        make.left.equalTo(self.topToolView).offset(6);
+        make.left.equalTo(self.topToolView).offset(([self yjijk_isIPhoneX] ? [self yjijk_stateBarSpace] : 0) + 6 + leftSpace);
         make.size.mas_equalTo(CGSizeMake(40, 28));
     }];
     if (IsIPad && CGAffineTransformIsIdentity(self.backBtn.transform)) {
@@ -171,7 +178,7 @@
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.topToolView);
         make.left.equalTo(self.backBtn.mas_right).offset(20);
-        make.right.equalTo(self.topToolView).offset(-20);
+        make.right.equalTo(self.topToolView).offset(-20-[self yj_tabBarSpace]);
     }];
     
     [self.bottomToolView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -187,12 +194,12 @@
     
     [self.playOrPauseBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.bottomToolView);
-        make.left.equalTo(self.bottomToolView).offset(IsIPad ? 12 : 6);
+        make.left.equalTo(self.bottomToolView).offset(([self yjijk_isIPhoneX] ? [self yjijk_stateBarSpace] : 0)+ (IsIPad ? 12 : 6) + leftSpace);
         make.size.mas_equalTo(CGSizeMake(28, 38));
     }];
     [self.muteBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.bottomToolView);
-        make.right.equalTo(self.bottomToolView).offset(IsIPad ? -15 : -5);
+        make.right.equalTo(self.bottomToolView).offset(([self yjijk_isIPhoneX] ? - [self yj_tabBarSpace] : 0) + (IsIPad ? -15 : -5));
         make.size.mas_equalTo(CGSizeMake(28, 28));
     }];
     [self.totalTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -384,11 +391,13 @@
     return _backBtn;
 }
 
-- (UILabel *)titleLabel {
+- (YJIJKMarqueeLabel *)titleLabel {
     if (!_titleLabel) {
-        _titleLabel = [[UILabel alloc] init];
+        _titleLabel = [[YJIJKMarqueeLabel alloc] init];
         _titleLabel.font = [UIFont systemFontOfSize:IsIPad ? 20 : 17];
         _titleLabel.textColor = [UIColor whiteColor];
+       _titleLabel.speed = 0.1f;
+        _titleLabel.secondLabelInterval = 10;
         _titleLabel.text = @"";
     }
     return _titleLabel;

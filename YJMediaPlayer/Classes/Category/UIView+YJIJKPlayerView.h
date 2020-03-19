@@ -27,5 +27,7 @@
 - (void)yjijk_clipLayerWithRadius:(CGFloat)r
                           width:(CGFloat)w
                           color:(UIColor *)color;
-
+- (BOOL)yjijk_isIPhoneX;
+- (CGFloat)yjijk_stateBarSpace;
+- (CGFloat)yj_tabBarSpace;
 @end

@@ -321,12 +321,19 @@ typedef NS_ENUM(NSInteger, PanDirection){
         [UIView animateWithDuration:0.25 animations:^{
             self.transform = CGAffineTransformMakeRotation(M_PI / 2);
         }];
-        [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight animated:NO];
+        if (@available(iOS 13.0, *)) {
+        }else{
+            [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight animated:NO];
+        }
     }else if (orientation == UIInterfaceOrientationLandscapeRight) {
         [UIView animateWithDuration:0.25 animations:^{
             self.transform = CGAffineTransformMakeRotation( - M_PI / 2);
         }];
-        [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft animated:NO];
+        if (@available(iOS 13.0, *)) {
+        }else{
+            [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft animated:NO];
+            
+        }
     }
     
     CGFloat screenW = (kMFDevice_Width > kMFDevice_Height) ? kMFDevice_Width : kMFDevice_Height;
@@ -372,7 +379,10 @@ typedef NS_ENUM(NSInteger, PanDirection){
     }];
 
     [self removeFromSuperview];
-    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait animated:NO];
+    if (@available(iOS 13.0, *)) {
+    }else{
+        [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait animated:NO];
+    }
     [self.videoView addSubview:self];
     [self mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_offset(UIEdgeInsetsZero);
@@ -519,6 +529,8 @@ typedef NS_ENUM(NSInteger, PanDirection){
         }else{
             [self setVideoSrtCurrentTime:progress * self.duration];
         }
+    }else{
+        [self setVideoSubLabAttributedTextWithText:@""];
     }
 }
 - (void)setVideoSrtCurrentTime:(CGFloat)currentTime{
@@ -526,13 +538,18 @@ typedef NS_ENUM(NSInteger, PanDirection){
     if (currentTime < firstInfo.beginTime) {
         [self setVideoSubLabAttributedTextWithText:@""];
     }else{
+        BOOL showText = NO;
         for (int i = 0; i < self.srtModel.srtList.count; i++) {
             YJIJKSrtInfoModel *currentInfo = self.srtModel.srtList[i];
             if (currentTime >= currentInfo.beginTime &&
                 currentTime < currentInfo.endTime) {
+                showText = YES;
                  [self setVideoSubLabAttributedTextWithText:currentInfo.subtitles];
                 break;
             }
+        }
+        if (!showText) {
+            [self setVideoSubLabAttributedTextWithText:@""];
         }
     }
 }
@@ -667,7 +684,11 @@ typedef NS_ENUM(NSInteger, PanDirection){
 #pragma mark - getter
 - (UIView *)statusBar{
     if (!_statusBar){
-        _statusBar = [[[UIApplication sharedApplication] valueForKey:@"statusBarWindow"] valueForKey:@"statusBar"];
+        if (@available(iOS 13.0, *)) {
+             _statusBar = [[UIView alloc] initWithFrame:[UIApplication sharedApplication].statusBarFrame];
+        } else {
+            _statusBar = [[[UIApplication sharedApplication] valueForKey:@"statusBarWindow"] valueForKey:@"statusBar"];
+        }
     }
     return _statusBar;
 }
